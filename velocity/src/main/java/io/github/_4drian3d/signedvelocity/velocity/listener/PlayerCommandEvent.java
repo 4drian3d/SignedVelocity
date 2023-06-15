@@ -1,7 +1,5 @@
 package io.github._4drian3d.signedvelocity.velocity.listener;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
@@ -10,10 +8,9 @@ import com.velocitypowered.api.event.command.CommandExecuteEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import io.github._4drian3d.signedvelocity.velocity.DataBuilder;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import org.checkerframework.checker.nullness.qual.Nullable;
-
-import java.util.Objects;
 
 public final class PlayerCommandEvent implements Listener<CommandExecuteEvent> {
     @Inject
@@ -32,7 +29,6 @@ public final class PlayerCommandEvent implements Listener<CommandExecuteEvent> {
         if (result == CommandExecuteEvent.CommandResult.allowed() || result.isForwardToServer()) return null;
         if (!(event.getCommandSource() instanceof Player player)) return null;
         return EventTask.async(() -> {
-            final String originalCommand = event.getCommand();
             final RegisteredServer server = player.getCurrentServer()
                     .map(ServerConnection::getServer)
                     .orElseThrow();
@@ -40,19 +36,23 @@ public final class PlayerCommandEvent implements Listener<CommandExecuteEvent> {
 
             if (finalCommand == null) {
                 // Cancelled
-                final ByteArrayDataOutput buf = ByteStreams.newDataOutput();
-                buf.writeUTF("COMMAND_RESULT");
-                buf.writeUTF("CANCEL");
-                buf.writeUTF(player.getUsername());
-                final byte[] data = buf.toByteArray();
+                final DataBuilder builder = DataBuilder
+                        .builder()
+                        .append("COMMAND_RESULT")
+                        .append("CANCEL")
+                        .append(player.getUsername());
+                final byte[] data = builder.build();
                 server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
-            } else if (!Objects.equals(originalCommand, finalCommand)) {
+            } else {
                 // Modified
-                final ByteArrayDataOutput buf = ByteStreams.newDataOutput();
-                buf.writeUTF("COMMAND_RESULT");
-                buf.writeUTF("MODIFY");
-                buf.writeUTF(player.getUsername());
-                buf.writeUTF(finalCommand);
+                final DataBuilder builder = DataBuilder
+                        .builder()
+                        .append("COMMAND_RESULT")
+                        .append("MODIFY")
+                        .append(player.getUsername())
+                        .append(finalCommand);
+                final byte[] data = builder.build();
+                server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
             }
             event.setResult(CommandExecuteEvent.CommandResult.allowed());
         });
