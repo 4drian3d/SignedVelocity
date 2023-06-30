@@ -9,11 +9,12 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class PluginMessagingListener implements PluginMessageListener {
     private final SignedVelocity plugin;
 
-    public PluginMessagingListener(SignedVelocity plugin) {
+    public PluginMessagingListener(final SignedVelocity plugin) {
         this.plugin = plugin;
     }
 
@@ -26,18 +27,23 @@ public class PluginMessagingListener implements PluginMessageListener {
         if (!Objects.equals(channel, SignedVelocity.CHANNEL)) {
             return;
         }
+        @SuppressWarnings("UnstableApiUsage")
         final ByteArrayDataInput input = ByteStreams.newDataInput(message);
         final String source = input.readUTF();
         final String result = input.readUTF();
         final String username = input.readUTF();
 
-        final SignedQueue queue = Objects.equals(source, "COMMAND_RESULT")
-                ? plugin.getCommandQueue()
-                : plugin.getChatQueue();
-        final SignedQueue.SignedResult resulted = Objects.equals(result, "CANCEL")
-                ? SignedQueue.SignedResult.cancel()
-                : SignedQueue.SignedResult.modify(input.readUTF());
-        final Player messagePlayer = plugin.getServer().getPlayer(username);
+        final SignedQueue queue = switch (source) {
+            case "COMMAND_RESULT" -> plugin.getCommandQueue();
+            case "CHAT_RESULT" -> plugin.getChatQueue();
+            default -> throw new IllegalArgumentException("Invalid source " + source);
+        };
+        final SignedQueue.SignedResult resulted = switch (result) {
+            case "CANCEL" -> SignedQueue.SignedResult.cancel();
+            case "MODIFY" -> SignedQueue.SignedResult.modify(input.readUTF());
+            default -> throw new IllegalArgumentException("Invalid result " + result);
+        };
+        final Player messagePlayer = plugin.getServer().getPlayer(UUID.fromString(username));
         queue.queueResult(messagePlayer, resulted);
     }
 }

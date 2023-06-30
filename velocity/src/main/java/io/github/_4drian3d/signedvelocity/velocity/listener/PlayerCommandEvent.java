@@ -12,6 +12,8 @@ import io.github._4drian3d.signedvelocity.velocity.DataBuilder;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Objects;
+
 public final class PlayerCommandEvent implements Listener<CommandExecuteEvent> {
     @Inject
     private EventManager eventManager;
@@ -28,11 +30,16 @@ public final class PlayerCommandEvent implements Listener<CommandExecuteEvent> {
         final CommandExecuteEvent.CommandResult result = event.getResult();
         if (result == CommandExecuteEvent.CommandResult.allowed() || result.isForwardToServer()) return null;
         if (!(event.getCommandSource() instanceof Player player)) return null;
-        return EventTask.async(() -> {
+        return EventTask.withContinuation(continuation -> {
             final RegisteredServer server = player.getCurrentServer()
                     .map(ServerConnection::getServer)
                     .orElseThrow();
             final String finalCommand = event.getResult().getCommand().orElse(null);
+
+            if (Objects.equals(finalCommand, event.getCommand())) {
+                continuation.resume();
+                return;
+            }
 
             if (finalCommand == null) {
                 // Cancelled
@@ -40,7 +47,7 @@ public final class PlayerCommandEvent implements Listener<CommandExecuteEvent> {
                         .builder()
                         .append("COMMAND_RESULT")
                         .append("CANCEL")
-                        .append(player.getUsername());
+                        .append(player.getUniqueId().toString());
                 final byte[] data = builder.build();
                 server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
             } else {
@@ -49,12 +56,13 @@ public final class PlayerCommandEvent implements Listener<CommandExecuteEvent> {
                         .builder()
                         .append("COMMAND_RESULT")
                         .append("MODIFY")
-                        .append(player.getUsername())
+                        .append(player.getUniqueId().toString())
                         .append(finalCommand);
                 final byte[] data = builder.build();
                 server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
             }
             event.setResult(CommandExecuteEvent.CommandResult.allowed());
+            continuation.resume();
         });
     }
 }

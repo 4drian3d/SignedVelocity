@@ -14,11 +14,11 @@ import java.util.Objects;
 public final class PlayerChatListener implements Listener {
     private final SignedQueue chatQueue;
 
-    public PlayerChatListener(SignedVelocity plugin) {
+    public PlayerChatListener(final SignedVelocity plugin) {
         this.chatQueue = plugin.getChatQueue();
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(final AsyncChatEvent event) {
         final Player player = event.getPlayer();
         final SignedQueue.SignedResult result = chatQueue.nextResult(player.getUniqueId());

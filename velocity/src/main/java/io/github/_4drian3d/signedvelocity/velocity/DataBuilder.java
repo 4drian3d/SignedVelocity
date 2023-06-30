@@ -10,7 +10,7 @@ public final class DataBuilder {
     private DataBuilder() {
     }
 
-    public DataBuilder append(String string) {
+    public DataBuilder append(final String string) {
         data.writeUTF(string);
         return this;
     }

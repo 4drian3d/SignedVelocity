@@ -33,3 +33,4 @@ blossom = { id = "net.kyori.blossom", version.ref = "blossom" }
 shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
 runvelocity = { id = "xyz.jpenilla.run-velocity", version.ref = "runvelocity" }
 runpaper = { id = "xyz.jpenilla.run-paper", version.ref = "runvelocity" }
+pluginyml-paper = { id = "net.minecrell.plugin-yml.paper", version = "0.6.0" }
