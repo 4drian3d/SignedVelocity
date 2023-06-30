@@ -10,6 +10,7 @@ import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import io.github._4drian3d.signedvelocity.velocity.listener.Listener;
 import io.github._4drian3d.signedvelocity.velocity.listener.PlayerChatListener;
 import io.github._4drian3d.signedvelocity.velocity.listener.PlayerCommandEvent;
+import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 import java.util.stream.Stream;
@@ -28,10 +29,15 @@ public final class SignedVelocity {
     private Injector injector;
     @Inject
     private Logger logger;
+    @Inject
+    private Metrics.Factory factory;
 
     @Subscribe
     public void onProxyInitialization(final ProxyInitializeEvent event) {
+        factory.make(this, 18937);
+
         logger.info("Starting SignedVelocity");
+
         Stream.of(PlayerChatListener.class, PlayerCommandEvent.class)
                 .map(injector::getInstance)
                 .forEach(Listener::register);
