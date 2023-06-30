@@ -22,10 +22,16 @@ tasks {
         velocityVersion(libs.versions.velocity.get())
     }
     shadowJar {
-        archiveBaseName.set(rootProject.name)
+        archiveBaseName.set("${rootProject.name}-Proxy")
         archiveClassifier.set("")
         relocate("org.bstats", "io.github._4drian3d.signedvelocity.libs.bstats")
         minimize()
+        doLast {
+            copy {
+                from(archiveFile)
+                into("${rootProject.projectDir}/build")
+            }
+        }
     }
 }
 
