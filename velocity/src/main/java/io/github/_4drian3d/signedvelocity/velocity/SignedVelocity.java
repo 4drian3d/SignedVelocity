@@ -32,9 +32,8 @@ public final class SignedVelocity {
     @Subscribe
     public void onProxyInitialization(final ProxyInitializeEvent event) {
         logger.info("Starting SignedVelocity");
-        Stream.of(
-                PlayerChatListener.class,
-                PlayerCommandEvent.class
-        ).map(injector::getInstance).forEach(Listener::register);
+        Stream.of(PlayerChatListener.class, PlayerCommandEvent.class)
+                .map(injector::getInstance)
+                .forEach(Listener::register);
     }
 }
