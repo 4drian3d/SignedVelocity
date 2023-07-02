@@ -2,6 +2,7 @@ package io.github._4drian3d.signedvelocity.paper;
 
 import io.github._4drian3d.signedvelocity.paper.listener.PlayerChatListener;
 import io.github._4drian3d.signedvelocity.paper.listener.PlayerCommandListener;
+import io.github._4drian3d.signedvelocity.paper.listener.PlayerQuitListener;
 import io.github._4drian3d.signedvelocity.paper.listener.PluginMessagingListener;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +18,7 @@ public final class SignedVelocity extends JavaPlugin {
         server.getMessenger().registerIncomingPluginChannel(this, CHANNEL, new PluginMessagingListener(this));
         server.getPluginManager().registerEvents(new PlayerChatListener(this), this);
         server.getPluginManager().registerEvents(new PlayerCommandListener(this), this);
+        server.getPluginManager().registerEvents(new PlayerQuitListener(this), this);
     }
 
     public SignedQueue getChatQueue() {

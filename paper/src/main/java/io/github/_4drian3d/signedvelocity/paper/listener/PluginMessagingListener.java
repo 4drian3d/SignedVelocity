@@ -3,6 +3,7 @@ package io.github._4drian3d.signedvelocity.paper.listener;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import io.github._4drian3d.signedvelocity.paper.SignedQueue;
+import io.github._4drian3d.signedvelocity.paper.SignedResult;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -29,21 +30,22 @@ public class PluginMessagingListener implements PluginMessageListener {
         }
         @SuppressWarnings("UnstableApiUsage")
         final ByteArrayDataInput input = ByteStreams.newDataInput(message);
+
+        final UUID playerId = UUID.fromString(input.readUTF());
         final String source = input.readUTF();
         final String result = input.readUTF();
-        final String username = input.readUTF();
 
         final SignedQueue queue = switch (source) {
             case "COMMAND_RESULT" -> plugin.getCommandQueue();
             case "CHAT_RESULT" -> plugin.getChatQueue();
             default -> throw new IllegalArgumentException("Invalid source " + source);
         };
-        final SignedQueue.SignedResult resulted = switch (result) {
-            case "CANCEL" -> SignedQueue.SignedResult.cancel();
-            case "MODIFY" -> SignedQueue.SignedResult.modify(input.readUTF());
+        final SignedResult resulted = switch (result) {
+            case "CANCEL" -> SignedResult.cancel();
+            case "MODIFY" -> SignedResult.modify(input.readUTF());
+            case "ALLOWED" -> SignedResult.allowed();
             default -> throw new IllegalArgumentException("Invalid result " + result);
         };
-        final Player messagePlayer = plugin.getServer().getPlayer(UUID.fromString(username));
-        queue.queueResult(messagePlayer, resulted);
+        queue.dataFrom(playerId).complete(resulted);
     }
 }
