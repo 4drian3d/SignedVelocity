@@ -11,8 +11,8 @@ public final class QueuedData {
             // UnSynchronized
             if (!this.futureResult.isDone()) {
                 this.futureResult.complete(result);
+                this.futureResult = null;
             }
-            this.futureResult = null;
         } else {
             // Synchronized
             this.futureResult = CompletableFuture.completedFuture(result);

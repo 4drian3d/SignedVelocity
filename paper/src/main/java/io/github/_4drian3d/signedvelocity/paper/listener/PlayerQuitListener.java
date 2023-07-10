@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.UUID;
 
-public class PlayerQuitListener implements Listener {
+public final class PlayerQuitListener implements Listener {
     private final SignedQueue chatQueue;
     private final SignedQueue commandQueue;
 
