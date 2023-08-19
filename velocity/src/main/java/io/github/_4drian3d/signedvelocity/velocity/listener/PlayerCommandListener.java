@@ -15,7 +15,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
 
-public final class PlayerCommandEvent implements Listener<CommandExecuteEvent> {
+public final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
     @Inject
     private EventManager eventManager;
     @Inject

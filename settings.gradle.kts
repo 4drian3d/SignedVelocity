@@ -10,12 +10,15 @@ dependencyResolutionManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.6.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
+    id("org.spongepowered.gradle.plugin") version "2.1.1"
 }
 
 arrayOf(
+        "common-backend",
         "paper",
-        "velocity"
+        "sponge",
+        "velocity",
 ).forEach {
     include("signedvelocity-$it")
     project(":signedvelocity-$it").projectDir = file(it)

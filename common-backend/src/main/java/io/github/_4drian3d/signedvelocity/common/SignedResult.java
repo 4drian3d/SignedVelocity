@@ -1,8 +1,8 @@
-package io.github._4drian3d.signedvelocity.paper;
+package io.github._4drian3d.signedvelocity.common;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-public record SignedResult(@Nullable String message) {
+public record SignedResult(String message) {
     private static final SignedResult CANCEL = new SignedResult(null);
     private static final SignedResult ALLOWED = new SignedResult(null);
 

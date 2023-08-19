@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.paper.listener;
 
-import io.github._4drian3d.signedvelocity.paper.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

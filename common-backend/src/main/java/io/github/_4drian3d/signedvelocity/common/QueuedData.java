@@ -1,4 +1,4 @@
-package io.github._4drian3d.signedvelocity.paper;
+package io.github._4drian3d.signedvelocity.common;
 
 import java.util.concurrent.CompletableFuture;
 

@@ -1,5 +1,6 @@
 package io.github._4drian3d.signedvelocity.paper;
 
+import io.github._4drian3d.signedvelocity.common.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.listener.PlayerChatListener;
 import io.github._4drian3d.signedvelocity.paper.listener.PlayerCommandListener;
 import io.github._4drian3d.signedvelocity.paper.listener.PlayerQuitListener;

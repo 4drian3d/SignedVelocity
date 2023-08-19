@@ -1,10 +1,12 @@
 plugins {
     alias(libs.plugins.runpaper)
     alias(libs.plugins.pluginyml.paper)
+    alias(libs.plugins.shadow)
 }
 
 dependencies {
     compileOnly(libs.paper)
+    implementation(projects.signedvelocityCommonBackend)
 }
 
 tasks {
@@ -21,6 +23,9 @@ tasks {
                 into("${rootProject.projectDir}/build")
             }
         }
+    }
+    build {
+        dependsOn(shadowJar)
     }
 }
 

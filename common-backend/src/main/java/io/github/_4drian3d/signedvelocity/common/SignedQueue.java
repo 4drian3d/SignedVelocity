@@ -1,4 +1,4 @@
-package io.github._4drian3d.signedvelocity.paper;
+package io.github._4drian3d.signedvelocity.common;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,8 +12,7 @@ public final class SignedQueue {
     public @NotNull QueuedData dataFrom(final UUID uuid) {
         QueuedData data = signedResults.get(uuid);
         if (data == null) {
-            data = new QueuedData();
-            signedResults.put(uuid, data);
+            signedResults.put(uuid, data = new QueuedData());
         }
         return data;
     }
