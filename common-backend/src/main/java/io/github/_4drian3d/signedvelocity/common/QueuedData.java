@@ -1,6 +1,7 @@
 package io.github._4drian3d.signedvelocity.common;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public final class QueuedData {
     private volatile CompletableFuture<SignedResult> futureResult;
@@ -23,12 +24,13 @@ public final class QueuedData {
     public CompletableFuture<SignedResult> nextResult() {
         if (this.futureResult == null) {
             // UnSynchronized
-            return futureResult = new CompletableFuture<>();
+            return (futureResult = new CompletableFuture<>())
+                    .completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
         } else {
             // Synchronized
             final CompletableFuture<SignedResult> actual = this.futureResult;
             this.futureResult = null;
-            return actual;
+            return actual.completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
         }
     }
 }

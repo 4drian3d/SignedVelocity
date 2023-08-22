@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 rootProject.name = "SignedVelocity"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
@@ -17,7 +19,8 @@ plugins {
 arrayOf(
         "common-backend",
         "paper",
-        "sponge",
+        "sponge-8",
+        "sponge-10",
         "velocity",
 ).forEach {
     include("signedvelocity-$it")

@@ -4,20 +4,20 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import io.github._4drian3d.signedvelocity.common.SignedQueue;
 import io.github._4drian3d.signedvelocity.common.SignedResult;
+import net.kyori.adventure.text.Component;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.EventListenerRegistration;
 import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.command.ExecuteCommandEvent;
+import org.spongepowered.api.event.message.PlayerChatEvent;
 import org.spongepowered.plugin.PluginContainer;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
-public final class PlayerCommandListener implements SignedListener<ExecuteCommandEvent.Pre> {
+public final class SubmitChatListener implements SignedListener<PlayerChatEvent.Submit> {
     @Inject
-    @Named("command")
-    private SignedQueue commandQueue;
+    @Named("chat")
+    private SignedQueue chatQueue;
     @Inject
     private EventManager eventManager;
     @Inject
@@ -25,18 +25,22 @@ public final class PlayerCommandListener implements SignedListener<ExecuteComman
 
 
     @Override
-    public void handle(final ExecuteCommandEvent.Pre event) {
-        event.cause().first(ServerPlayer.class)
+    public void handle(final PlayerChatEvent.Submit event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        event.cause()
+                .first(ServerPlayer.class)
                 .ifPresent(player -> {
-                    final CompletableFuture<SignedResult> futureResult = commandQueue.dataFrom(player.uniqueId()).nextResult();
+                    final CompletableFuture<SignedResult> futureResult = chatQueue.dataFrom(player.uniqueId()).nextResult();
 
-                    futureResult.completeOnTimeout(SignedResult.allowed(), 150, TimeUnit.MILLISECONDS).thenAccept(result -> {
+                    futureResult.thenAccept(result -> {
                         if (result.cancelled()) {
                             event.setCancelled(true);
                         } else {
-                            final String modified = result.toModify();
-                            if (modified != null) {
-                                event.setCommand(modified);
+                            final String modifiedChat = result.toModify();
+                            if (modifiedChat != null && !event.isSigned()) {
+                                event.setMessage(Component.text(modifiedChat));
                             }
                         }
                     }).join();
@@ -46,7 +50,7 @@ public final class PlayerCommandListener implements SignedListener<ExecuteComman
     @Override
     public void register() {
         eventManager.registerListener(
-                EventListenerRegistration.builder(ExecuteCommandEvent.Pre.class)
+                EventListenerRegistration.builder(PlayerChatEvent.Submit.class)
                         .listener(this)
                         .plugin(this.pluginContainer)
                         .order(Order.PRE)

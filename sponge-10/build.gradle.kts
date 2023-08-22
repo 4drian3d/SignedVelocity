@@ -11,7 +11,7 @@ dependencies {
 }
 
 sponge {
-    apiVersion("8.1.0")
+    apiVersion("10.0.0-SNAPSHOT")
     license("GPL-3")
     loader {
         name(PluginLoaders.JAVA_PLAIN)
@@ -33,9 +33,22 @@ sponge {
             loadOrder(PluginDependency.LoadOrder.AFTER)
             optional(false)
         }
+        this.version("${project.version}-API10")
     }
 }
 
-tasks.build {
-    dependsOn(tasks.shadowJar)
+tasks {
+    build {
+        dependsOn(shadowJar)
+    }
+    shadowJar {
+        archiveBaseName.set("${rootProject.name}-Sponge-10")
+        archiveClassifier.set("")
+        doLast {
+            copy {
+                from(archiveFile)
+                into("${rootProject.projectDir}/build")
+            }
+        }
+    }
 }

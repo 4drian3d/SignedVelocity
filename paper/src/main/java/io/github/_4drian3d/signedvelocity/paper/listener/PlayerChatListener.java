@@ -11,7 +11,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 public final class PlayerChatListener implements Listener {
     private final SignedQueue chatQueue;
@@ -25,7 +24,7 @@ public final class PlayerChatListener implements Listener {
         final Player player = event.getPlayer();
         final CompletableFuture<SignedResult> futureResult = chatQueue.dataFrom(player.getUniqueId()).nextResult();
 
-        futureResult.completeOnTimeout(SignedResult.allowed(), 150, TimeUnit.MILLISECONDS).thenAccept(result -> {
+        futureResult.thenAccept(result -> {
             if (result.cancelled()) {
                 event.setCancelled(true);
             } else {

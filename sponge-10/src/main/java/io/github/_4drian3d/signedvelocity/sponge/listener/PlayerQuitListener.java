@@ -29,14 +29,14 @@ public final class PlayerQuitListener implements SignedListener<ServerSideConnec
                 EventListenerRegistration.builder(ServerSideConnectionEvent.Disconnect.class)
                         .listener(this)
                         .plugin(this.pluginContainer)
-                        .order(Order.PRE)
-                        .beforeModifications(true)
+                        .order(Order.DEFAULT)
+                        .beforeModifications(false)
                         .build()
         );
     }
 
     @Override
-    public void handle(ServerSideConnectionEvent.Disconnect event) {
+    public void handle(final ServerSideConnectionEvent.Disconnect event) {
         final UUID playerUUID = event.player().uniqueId();
         this.chatQueue.removeData(playerUUID);
         this.commandQueue.removeData(playerUUID);
