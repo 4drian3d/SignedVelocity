@@ -10,7 +10,7 @@ import org.spongepowered.api.network.channel.raw.play.RawPlayDataHandler;
 
 import java.util.UUID;
 
-public final class PluginMessagingListener implements RawPlayDataHandler<EngineConnection> {
+public final class ProxyDataHandler implements RawPlayDataHandler<EngineConnection> {
     @Inject
     @Named("chat")
     private SignedQueue chatQueue;

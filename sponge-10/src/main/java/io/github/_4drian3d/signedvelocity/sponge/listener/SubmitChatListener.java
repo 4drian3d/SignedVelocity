@@ -23,12 +23,12 @@ public final class SubmitChatListener implements SignedListener<PlayerChatEvent.
     @Inject
     private PluginContainer pluginContainer;
 
-
     @Override
     public void handle(final PlayerChatEvent.Submit event) {
         if (event.isCancelled()) {
             return;
         }
+
         event.cause()
                 .first(ServerPlayer.class)
                 .ifPresent(player -> {

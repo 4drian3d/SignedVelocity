@@ -36,30 +36,26 @@ public final class PlayerCommandListener implements Listener<CommandExecuteEvent
                     .map(ServerConnection::getServer)
                     .orElseThrow();
             // ALLOWED
+            // | If the command is allowed or will be redirected to the server,
+            // | simply transmit that the command should be accepted
             if (result == CommandExecuteEvent.CommandResult.allowed() || result.isForwardToServer()) {
                 allowedData(player, server);
                 continuation.resume();
                 return;
             }
+
+            // DENIED
+            // | The player has an old version, so you can safely deny execution from Velocity
+            if (!result.isAllowed() && player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_19_1) < 0) {
+                continuation.resume();
+                return;
+            }
             event.setResult(CommandExecuteEvent.CommandResult.allowed());
 
-            // ALLOWED
-            if (player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_19_1) < 0) {
-                allowedData(player, server);
-                continuation.resume();
-                return;
-            }
-
-            final String finalCommand = event.getResult().getCommand().orElse(null);
-
-            // ALLOWED
-            if (Objects.equals(finalCommand, event.getCommand())) {
-                allowedData(player, server);
-                continuation.resume();
-                return;
-            }
+            final String finalCommand = result.getCommand().orElse(null);
 
             // Cancelled
+            // | The result is to cancel the execution
             if (finalCommand == null) {
                 final DataBuilder builder = DataBuilder
                         .builder()
@@ -71,7 +67,18 @@ public final class PlayerCommandListener implements Listener<CommandExecuteEvent
                 continuation.resume();
                 return;
             }
+
+            // ALLOWED
+            // | If the result of the event is to modify the command,
+            // | but the modified command is the same as the executed one, simply accept the execution
+            if (Objects.equals(finalCommand, event.getCommand())) {
+                allowedData(player, server);
+                continuation.resume();
+                return;
+            }
+
             // Modified
+            // | The result is to modify the command
             final DataBuilder builder = DataBuilder
                     .builder()
                     .append(player.getUniqueId().toString())

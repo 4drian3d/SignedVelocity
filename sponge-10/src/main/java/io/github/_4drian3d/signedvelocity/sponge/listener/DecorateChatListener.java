@@ -23,13 +23,12 @@ public final class DecorateChatListener implements SignedListener<PlayerChatEven
     @Inject
     private PluginContainer pluginContainer;
 
-
     @Override
     public void handle(final PlayerChatEvent.Decorate event) {
         event.cause()
                 .first(ServerPlayer.class)
                 .ifPresent(player -> {
-                    final CompletableFuture<SignedResult> futureResult = chatQueue.dataFrom(player.uniqueId()).nextResult();
+                    final CompletableFuture<SignedResult> futureResult = chatQueue.dataFrom(player.uniqueId()).nextResultWithoutAdvance();
 
                     futureResult.thenAccept(result -> {
                         final String modifiedChat = result.toModify();

@@ -29,6 +29,6 @@ public class SignedVelocity {
                 .channelManager()
                 .ofType(ResourceKey.of("signedvelocity", "main"), RawDataChannel.class)
                 .play()
-                .addHandler(injector.getInstance(PluginMessagingListener.class));
+                .addHandler(injector.getInstance(ProxyDataHandler.class));
     }
 }

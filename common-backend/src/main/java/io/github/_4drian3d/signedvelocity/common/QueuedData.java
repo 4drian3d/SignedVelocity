@@ -33,4 +33,15 @@ public final class QueuedData {
             return actual.completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
         }
     }
+
+    public CompletableFuture<SignedResult> nextResultWithoutAdvance() {
+        if (this.futureResult == null) {
+            // UnSynchronized
+            return (futureResult = new CompletableFuture<>())
+                    .completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
+        } else {
+            // Synchronized
+            return this.futureResult.completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
+        }
+    }
 }

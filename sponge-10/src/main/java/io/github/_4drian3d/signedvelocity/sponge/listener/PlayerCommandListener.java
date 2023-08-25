@@ -28,6 +28,7 @@ public final class PlayerCommandListener implements SignedListener<ExecuteComman
         if (event.isCancelled()) {
             return;
         }
+
         event.cause()
                 .first(ServerPlayer.class)
                 .ifPresent(player -> {
