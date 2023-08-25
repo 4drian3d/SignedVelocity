@@ -16,13 +16,17 @@ plugins {
     id("org.spongepowered.gradle.plugin") version "2.1.1"
 }
 
-arrayOf(
-        "common-backend",
-        "paper",
-        "sponge-8",
-        "sponge-10",
-        "velocity",
-).forEach {
-    include("signedvelocity-$it")
-    project(":signedvelocity-$it").projectDir = file(it)
-}
+include("signedvelocity-backend-common")
+project(":signedvelocity-backend-common").projectDir = file("backend/common")
+include("signedvelocity-paper")
+project(":signedvelocity-paper").projectDir = file("backend/paper")
+
+include("signedvelocity-sponge-common")
+project(":signedvelocity-sponge-common").projectDir = file("backend/sponge/common")
+include("signedvelocity-sponge-8")
+project(":signedvelocity-sponge-8").projectDir = file("backend/sponge/API-8")
+include("signedvelocity-sponge-10")
+project(":signedvelocity-sponge-10").projectDir = file("backend/sponge/API-10")
+
+include("signedvelocity-proxy")
+project(":signedvelocity-proxy").projectDir = file("velocity")
