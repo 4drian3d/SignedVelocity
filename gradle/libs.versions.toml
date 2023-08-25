@@ -26,6 +26,7 @@ bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 configurate-hocon = { module = "org.spongepowered:configurate-hocon", version.ref = "configurate" }
 configurate-kotlin = { module = "org.spongepowered:configurate-extra-kotlin", version.ref = "configurate" }
 
+annotations = "org.jetbrains:annotations:24.0.1"
 
 [plugins]
 

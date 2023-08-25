@@ -2,11 +2,6 @@ plugins {
     java
 }
 
-dependencies {
-    implementation(projects.signedvelocityPaper)
-    implementation(projects.signedvelocityVelocity)
-}
-
 allprojects {
     apply<JavaPlugin>()
     tasks {

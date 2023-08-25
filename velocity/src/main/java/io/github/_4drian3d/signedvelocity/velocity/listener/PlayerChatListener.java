@@ -26,11 +26,20 @@ public final class PlayerChatListener implements Listener<PlayerChatEvent> {
 
         return EventTask.withContinuation(continuation -> {
             final Player player = event.getPlayer();
+
+            // Denied
+            // | The player has an old version, so you can safely deny execution from Velocity
+            if (!result.isAllowed() && player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_19_1) < 0) {
+                continuation.resume();
+                return;
+            }
+
             final RegisteredServer server = player.getCurrentServer()
                     .map(ServerConnection::getServer)
                     .orElseThrow();
 
             // Allowed
+            // | If the message is allowed simply transmit that should be accepted
             if (result == PlayerChatEvent.ChatResult.allowed()) {
                 allowedData(player, server);
                 continuation.resume();
@@ -39,16 +48,10 @@ public final class PlayerChatListener implements Listener<PlayerChatEvent> {
 
             event.setResult(PlayerChatEvent.ChatResult.allowed());
 
-            // Allowed
-            if (player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_19_1) < 0) {
-                allowedData(player, server);
-                continuation.resume();
-                return;
-            }
-
-            final String finalMessage = event.getResult().getMessage().orElse(null);
+            final String finalMessage = result.getMessage().orElse(null);
 
             // Cancelled
+            // | The result is to cancel the execution
             if (finalMessage == null) {
                 final DataBuilder builder = DataBuilder
                         .builder()
@@ -61,7 +64,9 @@ public final class PlayerChatListener implements Listener<PlayerChatEvent> {
                 return;
             }
 
-            // Allowed
+            // ALLOWED
+            // | If the result of the event is to modify the message,
+            // | but the modified message is the same as the executed one, simply accept the execution
             if (Objects.equals(finalMessage, event.getMessage())) {
                 allowedData(player, server);
                 continuation.resume();
@@ -69,6 +74,7 @@ public final class PlayerChatListener implements Listener<PlayerChatEvent> {
             }
 
             // Modified
+            // | The result is to modify the command
             final DataBuilder builder = DataBuilder
                     .builder()
                     .append(player.getUniqueId().toString())
