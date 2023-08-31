@@ -1,11 +1,9 @@
 package io.github._4drian3d.signedvelocity.paper;
 
 import io.github._4drian3d.signedvelocity.common.SignedQueue;
-import io.github._4drian3d.signedvelocity.paper.listener.PlayerChatListener;
-import io.github._4drian3d.signedvelocity.paper.listener.PlayerCommandListener;
-import io.github._4drian3d.signedvelocity.paper.listener.PlayerQuitListener;
-import io.github._4drian3d.signedvelocity.paper.listener.PluginMessagingListener;
+import io.github._4drian3d.signedvelocity.paper.listener.*;
 import org.bukkit.Server;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SignedVelocity extends JavaPlugin {
@@ -17,9 +15,12 @@ public final class SignedVelocity extends JavaPlugin {
     public void onEnable() {
         final Server server = getServer();
         server.getMessenger().registerIncomingPluginChannel(this, CHANNEL, new PluginMessagingListener(this));
-        server.getPluginManager().registerEvents(new PlayerChatListener(this), this);
-        server.getPluginManager().registerEvents(new PlayerCommandListener(this), this);
-        server.getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+
+        final PluginManager pluginManager = server.getPluginManager();
+        pluginManager.registerEvents(new DecorateChatListener(this), this);
+        pluginManager.registerEvents(new PlayerChatListener(this), this);
+        pluginManager.registerEvents(new PlayerCommandListener(this), this);
+        pluginManager.registerEvents(new PlayerQuitListener(this), this);
     }
 
     public SignedQueue getChatQueue() {
