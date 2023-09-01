@@ -3,22 +3,31 @@ package io.github._4drian3d.signedvelocity.paper.listener;
 import io.github._4drian3d.signedvelocity.common.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.jetbrains.annotations.NotNull;
 
-public final class PlayerCommandListener implements Listener {
+public final class PlayerCommandListener implements EventListener<PlayerCommandPreprocessEvent> {
     private final SignedQueue commandQueue;
 
     public PlayerCommandListener(final SignedVelocity plugin) {
         this.commandQueue = plugin.getCommandQueue();
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onPlayerCommand(final PlayerCommandPreprocessEvent event) {
+    @Override
+    public @NotNull EventPriority priority() {
+        return EventPriority.LOWEST;
+    }
+
+    @Override
+    public boolean ignoreCancelled() {
+        return true;
+    }
+
+    @Override
+    public void handle(@NotNull PlayerCommandPreprocessEvent event) {
         final Player player = event.getPlayer();
-        commandQueue.dataFrom(player.getUniqueId())
+        this.commandQueue.dataFrom(player.getUniqueId())
                 .nextResult()
                 .thenAccept(result -> {
                     if (result.cancelled()) {
@@ -30,5 +39,10 @@ public final class PlayerCommandListener implements Listener {
                         }
                     }
                 }).join();
+    }
+
+    @Override
+    public @NotNull Class<PlayerCommandPreprocessEvent> eventClass() {
+        return PlayerCommandPreprocessEvent.class;
     }
 }

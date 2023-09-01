@@ -5,19 +5,28 @@ import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
-public final class PlayerChatListener implements Listener {
+public final class PlayerChatListener implements EventListener<AsyncChatEvent> {
     private final SignedQueue chatQueue;
 
     public PlayerChatListener(final SignedVelocity plugin) {
         this.chatQueue = plugin.getChatQueue();
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onChat(final AsyncChatEvent event) {
+    @Override
+    public @NotNull EventPriority priority() {
+        return EventPriority.LOWEST;
+    }
+
+    @Override
+    public boolean ignoreCancelled() {
+        return true;
+    }
+
+    @Override
+    public void handle(@NotNull AsyncChatEvent event) {
         final Player player = event.getPlayer();
         this.chatQueue.dataFrom(player.getUniqueId())
                 .nextResult()
@@ -31,5 +40,10 @@ public final class PlayerChatListener implements Listener {
                         }
                     }
                 }).join();
+    }
+
+    @Override
+    public @NotNull Class<AsyncChatEvent> eventClass() {
+        return AsyncChatEvent.class;
     }
 }

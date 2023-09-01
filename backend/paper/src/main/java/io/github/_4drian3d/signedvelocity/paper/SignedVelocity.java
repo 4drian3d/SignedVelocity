@@ -23,10 +23,19 @@ public final class SignedVelocity extends JavaPlugin {
         server.getMessenger().registerIncomingPluginChannel(this, CHANNEL, new PluginMessagingListener(this));
 
         final PluginManager pluginManager = server.getPluginManager();
-        pluginManager.registerEvents(new DecorateChatListener(this), this);
-        pluginManager.registerEvents(new PlayerChatListener(this), this);
-        pluginManager.registerEvents(new PlayerCommandListener(this), this);
-        pluginManager.registerEvents(new PlayerQuitListener(this), this);
+        Stream.of(
+            new DecorateChatListener(this),
+            new PlayerChatListener(this),
+            new PlayerCommandListener(this),
+            new PlayerQuitListener(this)
+        ).forEach(listener -> pluginManager.registerEvent(
+                listener.eventClass(),
+                listener,
+                listener.priority(),
+                listener,
+                this,
+                listener.ignoreCancelled()
+        ));
         this.blameAboutLegacyPlugins();
     }
 
@@ -64,8 +73,8 @@ public final class SignedVelocity extends JavaPlugin {
             builder.append('.');
             logger.warn("The following plugins have listener in legacy {} event: {}", clazz.getName(), builder);
             logger.warn("""
-                This may negatively affect the functionality of SignedVelocity,
-                please report to the author to use Paper's AsyncChatEvent and/or AsyncChatDecorateEvent""");
+                    This may negatively affect the functionality of SignedVelocity,
+                    please report to the author to use Paper's AsyncChatEvent and/or AsyncChatDecorateEvent""");
             logger.warn("------------------------------");
         }
     }
