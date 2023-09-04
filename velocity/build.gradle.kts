@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.runvelocity)
+    alias(libs.plugins.idea.ext)
     alias(libs.plugins.blossom)
     alias(libs.plugins.shadow)
 }
@@ -35,7 +36,12 @@ tasks {
     }
 }
 
-blossom {
-    replaceTokenIn("src/main/java/io/github/_4drian3d/signedvelocity/velocity/Constants.java")
-    replaceToken("{version}", project.version)
+sourceSets {
+    main {
+        blossom {
+            javaSources {
+                property("version", project.version.toString())
+            }
+        }
+    }
 }
