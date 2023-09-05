@@ -50,7 +50,6 @@ public final class PlayerCommandListener implements Listener<CommandExecuteEvent
                 continuation.resume();
                 return;
             }
-            event.setResult(CommandExecuteEvent.CommandResult.allowed());
 
             final String finalCommand = result.getCommand().orElse(null);
 
@@ -64,6 +63,7 @@ public final class PlayerCommandListener implements Listener<CommandExecuteEvent
                         .append("CANCEL");
                 final byte[] data = builder.build();
                 server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+                event.setResult(CommandExecuteEvent.CommandResult.forwardToServer());
                 continuation.resume();
                 return;
             }
@@ -73,6 +73,7 @@ public final class PlayerCommandListener implements Listener<CommandExecuteEvent
             // | but the modified command is the same as the executed one, simply accept the execution
             if (Objects.equals(finalCommand, event.getCommand())) {
                 allowedData(player, server);
+                event.setResult(CommandExecuteEvent.CommandResult.allowed());
                 continuation.resume();
                 return;
             }
@@ -87,6 +88,7 @@ public final class PlayerCommandListener implements Listener<CommandExecuteEvent
                     .append(finalCommand);
             final byte[] data = builder.build();
             server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+            event.setResult(CommandExecuteEvent.CommandResult.forwardToServer(finalCommand));
             continuation.resume();
         });
     }
