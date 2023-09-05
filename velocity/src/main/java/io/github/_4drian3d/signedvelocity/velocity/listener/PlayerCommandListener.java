@@ -1,6 +1,7 @@
 package io.github._4drian3d.signedvelocity.velocity.listener;
 
 import com.google.inject.Inject;
+import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.PostOrder;
@@ -18,6 +19,8 @@ import java.util.Objects;
 public final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
     @Inject
     private EventManager eventManager;
+    @Inject
+    private CommandManager commandManager;
     @Inject
     private SignedVelocity plugin;
 
@@ -88,7 +91,11 @@ public final class PlayerCommandListener implements Listener<CommandExecuteEvent
                     .append(finalCommand);
             final byte[] data = builder.build();
             server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
-            event.setResult(CommandExecuteEvent.CommandResult.forwardToServer(finalCommand));
+            if (this.isProxyCommand(event.getCommand())) {
+                event.setResult(CommandExecuteEvent.CommandResult.command(finalCommand));
+            } else {
+                event.setResult(CommandExecuteEvent.CommandResult.forwardToServer(finalCommand));
+            }
             continuation.resume();
         });
     }
@@ -101,5 +108,19 @@ public final class PlayerCommandListener implements Listener<CommandExecuteEvent
                 .append("ALLOWED");
         final byte[] data = builder.build();
         server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+    }
+
+    private boolean isProxyCommand(final String command) {
+        final int firstIndexOfSpace = command.indexOf(' ');
+        // In case the command executed is for example "/      test asd"
+        if (firstIndexOfSpace == 0) {
+            final String[] arguments = command.split(" ");
+            for (final String argument : arguments) {
+                if (argument.isBlank()) continue;
+                return this.commandManager.hasCommand(argument);
+            }
+        }
+        final String firstArgument = command.substring(0, firstIndexOfSpace);
+        return this.commandManager.hasCommand(firstArgument);
     }
 }
