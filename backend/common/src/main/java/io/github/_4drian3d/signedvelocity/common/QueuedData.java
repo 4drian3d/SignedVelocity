@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public final class QueuedData {
+    private static final int timeout = Integer.getInteger("io.github._4drian3d.signedvelocity.timeout", 125);
     private volatile CompletableFuture<SignedResult> futureResult;
 
     // first
@@ -25,12 +26,12 @@ public final class QueuedData {
         if (this.futureResult == null) {
             // UnSynchronized
             return (futureResult = new CompletableFuture<>())
-                    .completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
+                    .completeOnTimeout(SignedResult.allowed(), timeout, TimeUnit.MILLISECONDS);
         } else {
             // Synchronized
             final CompletableFuture<SignedResult> actual = this.futureResult;
             this.futureResult = null;
-            return actual.completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
+            return actual.completeOnTimeout(SignedResult.allowed(), timeout, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -38,10 +39,10 @@ public final class QueuedData {
         if (this.futureResult == null) {
             // UnSynchronized
             return (futureResult = new CompletableFuture<>())
-                    .completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
+                    .completeOnTimeout(SignedResult.allowed(), timeout, TimeUnit.MILLISECONDS);
         } else {
             // Synchronized
-            return this.futureResult.completeOnTimeout(SignedResult.allowed(), 100, TimeUnit.MILLISECONDS);
+            return this.futureResult.completeOnTimeout(SignedResult.allowed(), timeout, TimeUnit.MILLISECONDS);
         }
     }
 }
