@@ -7,7 +7,7 @@ velocity = "3.2.0-SNAPSHOT"
 paper = "1.20.1-R0.1-SNAPSHOT"
 
 # Gradle Plugins
-blossom = "2.0.1"
+blossom = "2.1.0"
 shadow = "8.1.1"
 runvelocity = "2.1.0"
 
