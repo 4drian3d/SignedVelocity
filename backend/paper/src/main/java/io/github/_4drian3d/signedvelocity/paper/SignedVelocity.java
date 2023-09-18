@@ -8,8 +8,11 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public final class SignedVelocity extends JavaPlugin {
@@ -66,16 +69,29 @@ public final class SignedVelocity extends JavaPlugin {
         @SuppressWarnings("UnstableApiUsage")
         private void printWarning(final Logger logger) {
             logger.warn("------------------------------");
+            final String legacyPluginList = legacyPluginList();
+            logger.warn("The following plugins have listener in legacy {} event: {}", clazz.getName(), legacyPluginList);
+            logger.warn("This may negatively affect the functionality of SignedVelocity,");
+            logger.warn("please report to the author to use Paper's AsyncChatEvent and/or AsyncChatDecorateEvent.");
+            logger.warn("------------------------------");
+        }
+
+        @NotNull
+        private String legacyPluginList() {
             final StringBuilder builder = new StringBuilder();
-            for (RegisteredListener listener : listeners) {
-                builder.append(listener.getPlugin().getPluginMeta().getName());
+            final Set<String> legacyPlugins = new HashSet<>();
+            for (int i = 0; i < listeners.length; i++) {
+                final RegisteredListener listener = listeners[i];
+                final String pluginName = listener.getPlugin().getPluginMeta().getName();
+                if (legacyPlugins.add(pluginName)) {
+                    builder.append(pluginName);
+                }
+                if (i + 1 != listeners.length) {
+                    builder.append(", ");
+                }
             }
             builder.append('.');
-            logger.warn("The following plugins have listener in legacy {} event: {}", clazz.getName(), builder);
-            logger.warn("""
-                    This may negatively affect the functionality of SignedVelocity,
-                    please report to the author to use Paper's AsyncChatEvent and/or AsyncChatDecorateEvent""");
-            logger.warn("------------------------------");
+            return builder.toString();
         }
     }
 }
