@@ -9,7 +9,7 @@ paper = "1.20.1-R0.1-SNAPSHOT"
 # Gradle Plugins
 blossom = "2.1.0"
 shadow = "8.1.1"
-runvelocity = "2.1.0"
+runvelocity = "2.2.0"
 
 # Utility Libraries
 configurate = "4.1.2"
