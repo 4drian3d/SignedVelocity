@@ -27,10 +27,10 @@ public final class SignedVelocity extends JavaPlugin {
 
         final PluginManager pluginManager = server.getPluginManager();
         Stream.of(
-            new DecorateChatListener(this),
-            new PlayerChatListener(this),
-            new PlayerCommandListener(this),
-            new PlayerQuitListener(this)
+                new DecorateChatListener(this),
+                new PlayerChatListener(this),
+                new PlayerCommandListener(this),
+                new PlayerQuitListener(this)
         ).forEach(listener -> pluginManager.registerEvent(
                 listener.eventClass(),
                 listener,

@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 
 public final class PlayerCommandListener implements EventListener<PlayerCommandPreprocessEvent> {
+    private static final StackWalker WALKER = StackWalker.getInstance();
     private final SignedQueue commandQueue;
 
     public PlayerCommandListener(final SignedVelocity plugin) {
@@ -26,6 +27,9 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
 
     @Override
     public void handle(@NotNull PlayerCommandPreprocessEvent event) {
+        if (isLocalCommand()) {
+            return;
+        }
         final Player player = event.getPlayer();
         this.commandQueue.dataFrom(player.getUniqueId())
                 .nextResult()
@@ -44,5 +48,13 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
     @Override
     public @NotNull Class<PlayerCommandPreprocessEvent> eventClass() {
         return PlayerCommandPreprocessEvent.class;
+    }
+
+    private boolean isLocalCommand() {
+        return WALKER.walk(stream -> stream.skip(9)
+                .limit(2)
+                .map(StackWalker.StackFrame::getMethodName)
+                .filter(method -> method.equals("chat") || method.equals("handleCommand"))
+                .count() == 2);
     }
 }
