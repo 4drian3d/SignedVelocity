@@ -27,6 +27,8 @@ In order for SignedVelocity to work, you must install it on both Velocity and al
 - Drag and drop on your Sponge plugins folder
 - Start your server
 
+[![](https://www.bisecthosting.com/partners/custom-banners/6fa909d5-ad2b-42c2-a7ec-1c51f8b6384f.webp)](https://www.bisecthosting.com/4drian3d)
+
 ## Downloads
 
 [![](https://raw.githubusercontent.com/Prospector/badges/master/modrinth-badge-72h-padded.png)](https://modrinth.com/plugin/signedvelocity)
