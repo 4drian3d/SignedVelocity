@@ -26,7 +26,7 @@ public final class PlayerChatListener implements EventListener<AsyncChatEvent> {
     }
 
     @Override
-    public void handle(@NotNull AsyncChatEvent event) {
+    public void handle(final @NotNull AsyncChatEvent event) {
         final Player player = event.getPlayer();
         this.chatQueue.dataFrom(player.getUniqueId())
                 .nextResult()

@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public final class QueuedData {
-    private static final int timeout = Integer.getInteger("io.github._4drian3d.signedvelocity.timeout", 125);
+    private static final int timeout = Integer.getInteger("io.github._4drian3d.signedvelocity.timeout", 135);
     private volatile CompletableFuture<SignedResult> futureResult;
 
     // first
