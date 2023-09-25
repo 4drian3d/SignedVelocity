@@ -8,7 +8,18 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 
 public final class PlayerCommandListener implements EventListener<PlayerCommandPreprocessEvent> {
+    private static final boolean CHECK_FOR_LOCAL_CHAT;
     private final SignedQueue commandQueue;
+
+    static {
+        final String property = System.getProperty("io.github._4drian3d.signedvelocity.checkForLocalChat");
+        if (property == null) {
+            CHECK_FOR_LOCAL_CHAT = true;
+        } else {
+            CHECK_FOR_LOCAL_CHAT = Boolean.parseBoolean(property);
+        }
+
+    }
 
     public PlayerCommandListener(final SignedVelocity plugin) {
         this.commandQueue = plugin.getCommandQueue();
@@ -25,7 +36,10 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
     }
 
     @Override
-    public void handle(@NotNull PlayerCommandPreprocessEvent event) {
+    public void handle(final @NotNull PlayerCommandPreprocessEvent event) {
+        if (CHECK_FOR_LOCAL_CHAT && isLocalCommand()) {
+            return;
+        }
         final Player player = event.getPlayer();
         this.commandQueue.dataFrom(player.getUniqueId())
                 .nextResult()
@@ -44,5 +58,14 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
     @Override
     public @NotNull Class<PlayerCommandPreprocessEvent> eventClass() {
         return PlayerCommandPreprocessEvent.class;
+    }
+
+    private boolean isLocalCommand() {
+        return StackWalker.getInstance()
+                .walk(stream -> stream.skip(9)
+                .limit(2)
+                .map(StackWalker.StackFrame::getMethodName)
+                .filter(method -> method.equals("chat") || method.equals("handleCommand"))
+                .count() == 2);
     }
 }
