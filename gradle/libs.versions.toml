@@ -11,8 +11,6 @@ blossom = "2.1.0"
 shadow = "8.1.1"
 runvelocity = "2.2.0"
 
-# Utility Libraries
-configurate = "4.1.2"
 bstats = "3.0.2"
 
 [libraries]
@@ -22,9 +20,6 @@ velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref =
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 
 bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
-
-configurate-hocon = { module = "org.spongepowered:configurate-hocon", version.ref = "configurate" }
-configurate-kotlin = { module = "org.spongepowered:configurate-extra-kotlin", version.ref = "configurate" }
 
 annotations = "org.jetbrains:annotations:24.0.1"
 
