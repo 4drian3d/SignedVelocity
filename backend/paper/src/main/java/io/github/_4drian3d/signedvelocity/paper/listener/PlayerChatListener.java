@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.jetbrains.annotations.NotNull;
 
-public final class PlayerChatListener implements EventListener<AsyncChatEvent> {
+public final class PlayerChatListener implements EventListener<AsyncChatEvent>, LocalExecutionDetector {
     private final SignedQueue chatQueue;
 
     public PlayerChatListener(final SignedVelocity plugin) {
@@ -27,6 +27,9 @@ public final class PlayerChatListener implements EventListener<AsyncChatEvent> {
 
     @Override
     public void handle(final @NotNull AsyncChatEvent event) {
+        if (CHECK_FOR_LOCAL_CHAT && isLocal()) {
+            return;
+        }
         final Player player = event.getPlayer();
         this.chatQueue.dataFrom(player.getUniqueId())
                 .nextResult()
@@ -45,5 +48,15 @@ public final class PlayerChatListener implements EventListener<AsyncChatEvent> {
     @Override
     public @NotNull Class<AsyncChatEvent> eventClass() {
         return AsyncChatEvent.class;
+    }
+
+    @Override
+    public boolean isLocal() {
+        return StackWalker.getInstance()
+                .walk(stream -> stream.skip(12)
+                        .limit(2)
+                        .map(StackWalker.StackFrame::getMethodName)
+                        .filter(method -> method.equals("chat"))
+                        .count() == 2);
     }
 }
