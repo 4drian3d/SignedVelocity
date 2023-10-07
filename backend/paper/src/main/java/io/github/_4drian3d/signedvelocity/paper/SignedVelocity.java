@@ -2,6 +2,7 @@ package io.github._4drian3d.signedvelocity.paper;
 
 import io.github._4drian3d.signedvelocity.common.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.listener.*;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -11,8 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Stream;
 
 public final class SignedVelocity extends JavaPlugin {
@@ -78,19 +79,14 @@ public final class SignedVelocity extends JavaPlugin {
 
         @NotNull
         private String legacyPluginList() {
-            final StringBuilder builder = new StringBuilder();
-            final Set<String> legacyPlugins = new HashSet<>();
-            for (int i = 0; i < listeners.length; i++) {
-                final RegisteredListener listener = listeners[i];
+            final StringJoiner builder = new StringJoiner(", ", "", ".");
+            final Set<String> legacyPlugins = new ObjectArraySet<>(1);
+            for (final RegisteredListener listener : listeners) {
                 final String pluginName = listener.getPlugin().getPluginMeta().getName();
                 if (legacyPlugins.add(pluginName)) {
-                    builder.append(pluginName);
-                }
-                if (i + 1 != listeners.length) {
-                    builder.append(", ");
+                    builder.add(pluginName);
                 }
             }
-            builder.append('.');
             return builder.toString();
         }
     }
