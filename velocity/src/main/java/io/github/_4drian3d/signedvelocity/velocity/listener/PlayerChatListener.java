@@ -14,7 +14,7 @@ import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 
 import java.util.Objects;
 
-public final class PlayerChatListener implements Listener<PlayerChatEvent> {
+final class PlayerChatListener implements Listener<PlayerChatEvent> {
     @Inject
     private EventManager eventManager;
     @Inject

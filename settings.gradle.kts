@@ -8,6 +8,8 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         maven("https://papermc.io/repo/repository/maven-public/")
+        maven("https://repo.codemc.io/repository/maven-releases/")
+        maven("https://mvn.exceptionflug.de/repository/exceptionflug-public/")
     }
 }
 

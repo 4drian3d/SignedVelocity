@@ -6,9 +6,13 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.velocity)
-    annotationProcessor(libs.velocity)
+    compileOnly(libs.velocity.api)
+    compileOnly(libs.velocity.proxy)
+    annotationProcessor(libs.velocity.api)
     implementation(libs.bstats)
+
+    compileOnly(libs.packetevents)
+    compileOnly(libs.vpacketevents)
 }
 
 tasks {

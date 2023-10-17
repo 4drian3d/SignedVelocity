@@ -16,10 +16,14 @@ bstats = "3.0.2"
 [libraries]
 
 # Compile Only Dependencies
-velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
+velocity-api = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
+velocity-proxy = { group = "com.velocitypowered", name = "velocity-proxy", version.ref = "velocity" }
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 
 bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
+
+packetevents = { group = "com.github.retrooper.packetevents", name = "velocity", version = "2.0.2" }
+vpacketevents = { group = "io.github.4drian3d", name = "vpacketevents-api", version = "1.1.0" }
 
 annotations = "org.jetbrains:annotations:24.0.1"
 
