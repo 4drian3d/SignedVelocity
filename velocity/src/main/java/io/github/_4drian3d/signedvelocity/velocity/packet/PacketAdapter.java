@@ -1,0 +1,24 @@
+package io.github._4drian3d.signedvelocity.velocity.packet;
+
+import com.google.inject.Injector;
+import com.velocitypowered.api.plugin.PluginManager;
+
+import java.util.Map;
+
+public sealed interface PacketAdapter permits PacketEventsAdapter, VPacketEventsAdapter {
+  void register();
+
+  static void register(final Injector injector, final PluginManager pluginManager) {
+    final var adapters = Map.of(
+            "packetevents", PacketEventsAdapter.class,
+            "vpacketevents", VPacketEventsAdapter.class
+            // Probable support of protocolize?
+    );
+    for (final var adapter : adapters.entrySet()) {
+      if (pluginManager.isLoaded(adapter.getKey())) {
+        injector.getInstance(adapter.getValue()).register();
+        return;
+      }
+    }
+  }
+}
