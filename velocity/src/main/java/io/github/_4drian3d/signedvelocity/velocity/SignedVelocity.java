@@ -2,7 +2,6 @@ package io.github._4drian3d.signedvelocity.velocity;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Dependency;
@@ -38,7 +37,7 @@ public final class SignedVelocity {
   @Inject
   private PluginManager pluginManager;
 
-  @Subscribe(order = PostOrder.LAST)
+  @Subscribe
   public void onProxyInitialization(final ProxyInitializeEvent event) {
     factory.make(this, 18937);
 
