@@ -5,6 +5,7 @@ metadata.format.version = "1.1"
 # CompileOnly dependencies
 velocity = "3.2.0-SNAPSHOT"
 paper = "1.20.1-R0.1-SNAPSHOT"
+minestom = "067227421f"
 
 # Gradle Plugins
 blossom = "2.1.0"
@@ -19,6 +20,7 @@ bstats = "3.0.2"
 velocity-api = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
 velocity-proxy = { group = "com.velocitypowered", name = "velocity-proxy", version.ref = "velocity" }
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+minestom = { module = "com.github.Minestom:Minestom", version.ref = "minestom" }
 
 bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 
