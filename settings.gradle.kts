@@ -10,6 +10,7 @@ dependencyResolutionManagement {
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://repo.codemc.io/repository/maven-releases/")
         maven("https://mvn.exceptionflug.de/repository/exceptionflug-public/")
+        maven("https://jitpack.io")
     }
 }
 
@@ -22,6 +23,8 @@ include("signedvelocity-backend-common")
 project(":signedvelocity-backend-common").projectDir = file("backend/common")
 include("signedvelocity-paper")
 project(":signedvelocity-paper").projectDir = file("backend/paper")
+include("signedvelocity-minestom")
+project(":signedvelocity-minestom").projectDir = file("backend/minestom")
 
 include("signedvelocity-sponge-common")
 project(":signedvelocity-sponge-common").projectDir = file("backend/sponge/common")
