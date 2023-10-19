@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "signedvelocity",
+  "version": "${version}",
+  "name": "SignedVelocity",
+  "description": "Allows you to cancel or modify messages or commands from Velocity without synchronization problems",
+  "authors": [
+    "4drian3d"
+  ],
+  "contact": {
+    "homepage": "https://github.com/4drian3d/SignedVelocity",
+    "sources": "https://github.com/4drian3d/SignedVelocity",
+    "issues": "https://github.com/4drian3d/SignedVelocity/issues"
+  },
+  "license": "GPL",
+  "environment": "server",
+  "entrypoints": {
+    "server": [
+      "io.github._4drian3d.signedvelocity.fabric.SignedVelocity"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.23",
+    "fabric": "*",
+    "java": ">=17",
+    "minecraft": ">1.20.2"
+  },
+  "mixins": [
+    "signedvelocity.mixins.json"
+  ]
+}
