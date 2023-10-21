@@ -37,7 +37,14 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
         return EventTask.withContinuation(continuation -> {
             final RegisteredServer server = player.getCurrentServer()
                     .map(ServerConnection::getServer)
-                    .orElseThrow();
+                    .orElse(null);
+
+            // The player is not connected to a server, there is nothing I can do.
+            if (server == null) {
+                continuation.resume();
+                return;
+            }
+
             // ALLOWED
             // | If the command is allowed or will be redirected to the server,
             // | simply transmit that the command should be accepted
