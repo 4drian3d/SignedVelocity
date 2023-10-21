@@ -7,9 +7,13 @@
 Allows you to cancel or modify messages or commands from Velocity without synchronization problems
 
 ## Requirements
+- Java 17+
 - Velocity 3.2.0+
+#### **Backend:**
 - Java 17+
 - Paper 1.19.4+ or Sponge 1.16.5+ (API 8.1+)
+- Sponge API 8.1/10+
+- Minestom
 
 ## Installation
 In order for SignedVelocity to work, you must install it on both Velocity and all your servers
@@ -25,6 +29,10 @@ In order for SignedVelocity to work, you must install it on both Velocity and al
 - Download the version of SignedVelocity-Sponge that is compatible with your server.
   SignedVelocity-Sponge-8 supports API 8.1 and 9, SignedVelocity-Sponge-10 supports API 10 and 11
 - Drag and drop on your Sponge plugins folder
+- Start your server
+### Minestom
+- Download SignedVelocity-Minestom
+- Drag and drop on your Minestom extensions folder
 - Start your server
 
 [![](https://www.bisecthosting.com/partners/custom-banners/6fa909d5-ad2b-42c2-a7ec-1c51f8b6384f.webp)](https://www.bisecthosting.com/4drian3d)
