@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class SignedQueue {
     private final Map<UUID, QueuedData> signedResults = new ConcurrentHashMap<>();
 
-    public @NotNull QueuedData dataFrom(final UUID uuid) {
+    public @NotNull QueuedData dataFrom(final @NotNull UUID uuid) {
         QueuedData data = signedResults.get(uuid);
         if (data == null) {
             signedResults.put(uuid, data = new QueuedData());

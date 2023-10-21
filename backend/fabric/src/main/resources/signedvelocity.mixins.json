@@ -4,9 +4,11 @@
   "package": "io.github._4drian3d.signedvelocity.fabric.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerListMixin",
+    "PlayerListCancellableMixin",
+    "PlayerListModifiableMixin",
     "ServerCommonPacketListenerMixin",
-    "ServerGamePacketListenerMixin"
+    "ServerGamePacketListenerCancellableMixin",
+    "ServerGamePacketListenerModifiableMixin"
   ],
   "injectors": {
     "defaultRequire": 1
