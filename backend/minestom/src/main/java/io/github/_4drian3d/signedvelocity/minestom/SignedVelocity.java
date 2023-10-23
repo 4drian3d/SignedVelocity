@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.minestom;
 
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.minestom.listener.PlayerChatListener;
 import io.github._4drian3d.signedvelocity.minestom.listener.PlayerCommandListener;
 import io.github._4drian3d.signedvelocity.minestom.listener.PluginMessageListener;

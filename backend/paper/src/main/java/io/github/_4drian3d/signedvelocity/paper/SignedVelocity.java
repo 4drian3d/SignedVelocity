@@ -1,6 +1,7 @@
 package io.github._4drian3d.signedvelocity.paper;
 
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.PropertyHolder;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.listener.*;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import org.bukkit.Server;
@@ -17,6 +18,7 @@ import java.util.StringJoiner;
 import java.util.stream.Stream;
 
 public final class SignedVelocity extends JavaPlugin {
+    private static final boolean LEGACY_PLUGIN_WARNING = PropertyHolder.readBoolean("io.github._4drian3d.signedvelocity.legacyPluginWarning", true);
     public static final String CHANNEL = "signedvelocity:main";
     private final SignedQueue chatQueue = new SignedQueue();
     private final SignedQueue commandQueue = new SignedQueue();
@@ -40,7 +42,9 @@ public final class SignedVelocity extends JavaPlugin {
                 this,
                 listener.ignoreCancelled()
         ));
-        this.blameAboutLegacyPlugins();
+        if (LEGACY_PLUGIN_WARNING) {
+            this.blameAboutLegacyPlugins();
+        }
     }
 
     public SignedQueue getChatQueue() {

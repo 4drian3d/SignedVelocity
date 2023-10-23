@@ -2,7 +2,7 @@ package io.github._4drian3d.signedvelocity.sponge.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.sponge.common.listener.SignedListener;
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;

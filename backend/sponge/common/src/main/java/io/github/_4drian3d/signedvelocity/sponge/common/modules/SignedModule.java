@@ -2,7 +2,7 @@ package io.github._4drian3d.signedvelocity.sponge.common.modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 
 public final class SignedModule extends AbstractModule {
     private final SignedQueue chatQueue = new SignedQueue();
