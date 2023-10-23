@@ -15,6 +15,13 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 - Sponge API 8.1/10+
 - Minestom
 
+## Features
+- Transmit the modification and cancellation status of Velocity messages and commands to your backend server using plugin messages. This avoids chat chain synchronization problems and avoids Velocity's security check by correctly synchronizing messages.
+- Chat reporting support using Velocity (can be disabled using external plugins like FreedomChat, **not recommended**)
+- Ability to remove the unsecured chat warning when logging into each server. Requires [VPacketEvents](https://modrinth.com/plugin/vpacketevents) or [PacketEvents](https://modrinth.com/plugin/packetevents)
+
+   ![SignedVelocitySignedStatus](https://github.com/4drian3d/SignedVelocity/assets/68704415/4a7e2bec-c167-4de1-b827-d188d0afaa56)
+
 ## Installation
 In order for SignedVelocity to work, you must install it on both Velocity and all your servers
 ### Velocity
