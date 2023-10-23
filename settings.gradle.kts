@@ -9,7 +9,7 @@ dependencyResolutionManagement {
     repositories {
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://repo.codemc.io/repository/maven-releases/")
-        maven("https://mvn.exceptionflug.de/repository/exceptionflug-public/")
+        maven("https://maven.elytrium.net/repo/")
         maven("https://jitpack.io")
     }
 }
