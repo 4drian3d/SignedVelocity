@@ -10,12 +10,7 @@ public final class PropertyHolder {
         if (value == null) {
             return defaultValue;
         } else {
-            try {
-                return "true".equalsIgnoreCase(value);
-            } catch (final Exception ignored) {
-                return defaultValue;
-            }
-
+            return "true".equalsIgnoreCase(value);
         }
     }
 
