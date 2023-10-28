@@ -2,8 +2,8 @@ package io.github._4drian3d.signedvelocity.paper.listener;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
-import io.github._4drian3d.signedvelocity.common.SignedResult;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedResult;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;

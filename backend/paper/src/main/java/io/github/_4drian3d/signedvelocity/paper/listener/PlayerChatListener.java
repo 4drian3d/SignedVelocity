@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.paper.listener;
 
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;

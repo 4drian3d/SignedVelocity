@@ -2,8 +2,8 @@ package io.github._4drian3d.signedvelocity.sponge.common.handler;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
-import io.github._4drian3d.signedvelocity.common.SignedResult;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedResult;
 import org.spongepowered.api.network.EngineConnection;
 import org.spongepowered.api.network.channel.ChannelBuf;
 import org.spongepowered.api.network.channel.raw.play.RawPlayDataHandler;

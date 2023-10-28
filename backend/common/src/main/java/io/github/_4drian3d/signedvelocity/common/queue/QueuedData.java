@@ -1,10 +1,12 @@
-package io.github._4drian3d.signedvelocity.common;
+package io.github._4drian3d.signedvelocity.common.queue;
+
+import io.github._4drian3d.signedvelocity.common.PropertyHolder;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public final class QueuedData {
-    private static final int timeout = Integer.getInteger("io.github._4drian3d.signedvelocity.timeout", 135);
+    private static final int timeout = PropertyHolder.readInt("io.github._4drian3d.signedvelocity.timeout", 140);
     private volatile CompletableFuture<SignedResult> futureResult;
 
     // first
@@ -35,6 +37,7 @@ public final class QueuedData {
         }
     }
 
+    @SuppressWarnings("ReplaceNullCheck")
     public CompletableFuture<SignedResult> nextResultWithoutAdvance() {
         if (this.futureResult == null) {
             // UnSynchronized

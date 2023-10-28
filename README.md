@@ -7,9 +7,20 @@
 Allows you to cancel or modify messages or commands from Velocity without synchronization problems
 
 ## Requirements
+- Java 17+
 - Velocity 3.2.0+
+#### **Backend:**
 - Java 17+
 - Paper 1.19.4+ or Sponge 1.16.5+ (API 8.1+)
+- Sponge API 8.1/10+
+- Minestom
+
+## Features
+- Transmit the modification and cancellation status of Velocity messages and commands to your backend server using plugin messages. This avoids chat chain synchronization problems and avoids Velocity's security check by correctly synchronizing messages.
+- Chat reporting support using Velocity (can be disabled using external plugins like FreedomChat, **not recommended**)
+- Ability to remove the unsecured chat warning when logging into each server. Requires [VPacketEvents](https://modrinth.com/plugin/vpacketevents) or [PacketEvents](https://modrinth.com/plugin/packetevents)
+
+   ![SignedVelocitySignedStatus](https://github.com/4drian3d/SignedVelocity/assets/68704415/4a7e2bec-c167-4de1-b827-d188d0afaa56)
 
 ## Installation
 In order for SignedVelocity to work, you must install it on both Velocity and all your servers
@@ -25,6 +36,10 @@ In order for SignedVelocity to work, you must install it on both Velocity and al
 - Download the version of SignedVelocity-Sponge that is compatible with your server.
   SignedVelocity-Sponge-8 supports API 8.1 and 9, SignedVelocity-Sponge-10 supports API 10 and 11
 - Drag and drop on your Sponge plugins folder
+- Start your server
+### Minestom
+- Download SignedVelocity-Minestom
+- Drag and drop on your Minestom extensions folder
 - Start your server
 
 [![](https://www.bisecthosting.com/partners/custom-banners/6fa909d5-ad2b-42c2-a7ec-1c51f8b6384f.webp)](https://www.bisecthosting.com/4drian3d)

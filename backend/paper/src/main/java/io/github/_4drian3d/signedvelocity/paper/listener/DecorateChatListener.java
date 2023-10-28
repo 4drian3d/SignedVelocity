@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.paper.listener;
 
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import io.papermc.paper.event.player.AsyncChatDecorateEvent;
 import net.kyori.adventure.text.Component;
@@ -35,11 +35,9 @@ public final class DecorateChatListener implements EventListener<AsyncChatDecora
         this.chatQueue.dataFrom(player.getUniqueId())
                 .nextResultWithoutAdvance()
                 .thenAccept(result -> {
-                    if (!result.cancelled()) {
-                        final String modifiedChat = result.toModify();
-                        if (modifiedChat != null) {
-                            event.result(Component.text(modifiedChat));
-                        }
+                    final String modifiedChat = result.toModify();
+                    if (modifiedChat != null) {
+                        event.result(Component.text(modifiedChat));
                     }
                 }).join();
     }
