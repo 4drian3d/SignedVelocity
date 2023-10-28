@@ -1,10 +1,11 @@
 package io.github._4drian3d.signedvelocity.fabric.mixins;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import io.github._4drian3d.signedvelocity.common.SignedQueue;
 import io.github._4drian3d.signedvelocity.common.SignedResult;
 import io.github._4drian3d.signedvelocity.fabric.SignedVelocity;
 import net.fabricmc.fabric.impl.networking.payload.PacketByteBufPayload;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.server.network.ServerCommonPacketListenerImpl;
@@ -19,10 +20,10 @@ public abstract class ServerCommonPacketListenerMixin {
     @Inject(at = @At("HEAD"), method = "handleCustomPayload", cancellable = true)
     private void signedVelocity$onPluginMessage(ServerboundCustomPayloadPacket packet, CallbackInfo ci) {
         if (packet.payload() instanceof PacketByteBufPayload payload && payload.id().equals(SignedVelocity.CHANNEL)) {
-            final FriendlyByteBuf input = payload.data();
-            final UUID playerId = UUID.fromString(input.readUtf());
-            final String source = input.readUtf();
-            final String result = input.readUtf();
+            final ByteArrayDataInput input = ByteStreams.newDataInput(payload.data().unwrap().array());
+            final UUID playerId = UUID.fromString(input.readUTF());
+            final String source = input.readUTF();
+            final String result = input.readUTF();
 
             final SignedQueue queue = switch (source) {
                 case "COMMAND_RESULT" -> SignedVelocity.COMMAND_QUEUE;
@@ -31,7 +32,7 @@ public abstract class ServerCommonPacketListenerMixin {
             };
             final SignedResult resulted = switch (result) {
                 case "CANCEL" -> SignedResult.cancel();
-                case "MODIFY" -> SignedResult.modify(input.readUtf());
+                case "MODIFY" -> SignedResult.modify(input.readUTF());
                 case "ALLOWED" -> SignedResult.allowed();
                 default -> throw new IllegalArgumentException("Invalid result " + result);
             };

@@ -10,9 +10,9 @@ dependencies {
     mappings(loom.officialMojangMappings())
     modImplementation(libs.fabric.loader)
     modImplementation(libs.fabric.api)
-    include(libs.mixinsextras)
-    implementation(libs.mixinsextras)
-    annotationProcessor(libs.mixinsextras)
+//    include(libs.mixinsextras)
+//    implementation(libs.mixinsextras)
+//    annotationProcessor(libs.mixinsextras)
 
     shadeModule(projects.signedvelocityBackendCommon)
 }
