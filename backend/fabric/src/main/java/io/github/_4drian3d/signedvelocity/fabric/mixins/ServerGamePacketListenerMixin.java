@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.fabric.mixins;
 
-import io.github._4drian3d.signedvelocity.common.SignedResult;
+import io.github._4drian3d.signedvelocity.common.queue.SignedResult;
 import io.github._4drian3d.signedvelocity.fabric.SignedVelocity;
 import io.github._4drian3d.signedvelocity.fabric.model.SignedChatCommandPacket;
 import net.minecraft.network.chat.LastSeenMessages;
@@ -30,17 +30,19 @@ public abstract class ServerGamePacketListenerMixin {
             LastSeenMessages lastSeenMessages,
             CallbackInfo ci
     ) {
-        if (!((SignedChatCommandPacket)(Object) packet).signedVelocity$handled()) {
+        if (((SignedChatCommandPacket)(Object) packet).signedVelocity$handled()) {
             return;
         }
         ((SignedChatCommandPacket)(Object) packet).signedVelocity$handled(true);
         final SignedResult result = SignedVelocity.COMMAND_QUEUE.dataFrom(player.getUUID())
                 .nextResult().join();
+        // Cancelled Result
         if (result.cancelled()) {
             ci.cancel();
             return;
         }
         final String modified = result.toModify();
+        // Modified Result
         if (modified != null) {
             // TODO: verify
             this.performChatCommand(

@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.fabric.mixins;
 
-import io.github._4drian3d.signedvelocity.common.SignedResult;
+import io.github._4drian3d.signedvelocity.common.queue.SignedResult;
 import io.github._4drian3d.signedvelocity.fabric.SignedVelocity;
 import io.github._4drian3d.signedvelocity.fabric.model.SignedPlayerChatMessage;
 import net.minecraft.network.chat.ChatType;
@@ -31,20 +31,21 @@ public abstract class PlayerListMixin {
             CallbackInfo ci
     ) {
         requireNonNull(serverPlayer);
-        if (!((SignedPlayerChatMessage)(Object)playerChatMessage).signedVelocity$handled()) {
-            ((SignedPlayerChatMessage)(Object)playerChatMessage).signedVelocity$handled(true);
-            final SignedResult result = SignedVelocity.CHAT_QUEUE.dataFrom(serverPlayer.getUUID())
-                    .nextResult().join();
-            // Cancelled Result
-            if (result.cancelled()) {
-                ci.cancel();
-                return;
-            }
-            final String modified = result.message();
-            // Modified Result
-            if (modified != null) {
-                this.broadcastChatMessage(playerChatMessage.withUnsignedContent(Component.literal(modified)), serverPlayer, bound);
-            }
+        if (((SignedPlayerChatMessage)(Object)playerChatMessage).signedVelocity$handled()) {
+            return;
+        }
+        ((SignedPlayerChatMessage)(Object)playerChatMessage).signedVelocity$handled(true);
+        final SignedResult result = SignedVelocity.CHAT_QUEUE.dataFrom(serverPlayer.getUUID())
+                .nextResult().join();
+        // Cancelled Result
+        if (result.cancelled()) {
+            ci.cancel();
+            return;
+        }
+        final String modified = result.message();
+        // Modified Result
+        if (modified != null) {
+            this.broadcastChatMessage(playerChatMessage.withUnsignedContent(Component.literal(modified)), serverPlayer, bound);
         }
     }
 }

@@ -2,8 +2,8 @@ package io.github._4drian3d.signedvelocity.fabric.mixins;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
-import io.github._4drian3d.signedvelocity.common.SignedResult;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedResult;
 import io.github._4drian3d.signedvelocity.fabric.SignedVelocity;
 import net.fabricmc.fabric.impl.networking.payload.PacketByteBufPayload;
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;

@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.fabric;
 
-import io.github._4drian3d.signedvelocity.common.SignedQueue;
+import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
