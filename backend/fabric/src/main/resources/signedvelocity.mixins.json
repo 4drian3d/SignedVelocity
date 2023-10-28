@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github._4drian3d.signedvelocity.fabric.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ChatCommandPacketMixin",
+    "PlayerChatMixin",
+    "PlayerListMixin",
+    "ServerCommonPacketListenerMixin",
+    "ServerGamePacketListenerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
