@@ -1,5 +1,6 @@
 package io.github._4drian3d.signedvelocity.paper.listener;
 
+import io.github._4drian3d.signedvelocity.common.logger.DebugLogger;
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import org.bukkit.entity.Player;
@@ -9,9 +10,11 @@ import org.jetbrains.annotations.NotNull;
 
 public final class PlayerCommandListener implements EventListener<PlayerCommandPreprocessEvent>, LocalExecutionDetector {
     private final SignedQueue commandQueue;
+    private final DebugLogger debugLogger;
 
     public PlayerCommandListener(final SignedVelocity plugin) {
         this.commandQueue = plugin.getCommandQueue();
+        this.debugLogger = plugin.debugLogger();
     }
 
     @Override
@@ -27,6 +30,7 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
     @Override
     public void handle(final @NotNull PlayerCommandPreprocessEvent event) {
         if (CHECK_FOR_LOCAL_CHAT && isLocal()) {
+            debugLogger.debug(() -> "[COMMAND] Local Chat Executed");
             return;
         }
         final Player player = event.getPlayer();
@@ -34,10 +38,16 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
                 .nextResult()
                 .thenAccept(result -> {
                     if (result.cancelled()) {
+                        debugLogger.debug(() -> "[COMMAND] Canceled Command. Command: " + event.getMessage());
                         event.setCancelled(true);
                     } else {
                         final String modified = result.toModify();
                         if (modified != null) {
+                            debugLogger.debugMultiple(() -> new String[] {
+                                    "[COMMAND] Modified Command",
+                                    "Original: " + event.getMessage(),
+                                    "Modified: " + modified
+                            });
                             event.setMessage(modified);
                         }
                     }

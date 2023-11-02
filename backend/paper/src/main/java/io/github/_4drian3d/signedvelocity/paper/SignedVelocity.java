@@ -1,6 +1,7 @@
 package io.github._4drian3d.signedvelocity.paper;
 
 import io.github._4drian3d.signedvelocity.common.PropertyHolder;
+import io.github._4drian3d.signedvelocity.common.logger.DebugLogger;
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.listener.*;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
@@ -22,6 +23,7 @@ public final class SignedVelocity extends JavaPlugin {
     public static final String CHANNEL = "signedvelocity:main";
     private final SignedQueue chatQueue = new SignedQueue();
     private final SignedQueue commandQueue = new SignedQueue();
+    private final DebugLogger debugLogger = new DebugLogger.Slf4j(getSLF4JLogger());
 
     @Override
     public void onEnable() {
@@ -53,6 +55,10 @@ public final class SignedVelocity extends JavaPlugin {
 
     public SignedQueue getCommandQueue() {
         return commandQueue;
+    }
+
+    public DebugLogger debugLogger() {
+        return this.debugLogger;
     }
 
     @SuppressWarnings("deprecation")

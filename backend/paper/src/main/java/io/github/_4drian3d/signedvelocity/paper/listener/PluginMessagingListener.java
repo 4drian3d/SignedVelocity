@@ -46,6 +46,13 @@ public class PluginMessagingListener implements PluginMessageListener {
             case "ALLOWED" -> SignedResult.allowed();
             default -> throw new IllegalArgumentException("Invalid result " + result);
         };
+
         queue.dataFrom(playerId).complete(resulted);
+        plugin.debugLogger().debugMultiple(() -> new String[] {
+                "[Plugin Message] Received Valid Message",
+                "| Queue: " + source,
+                "| Result: " + result,
+                "| Message: " + resulted.message()
+        });
     }
 }
