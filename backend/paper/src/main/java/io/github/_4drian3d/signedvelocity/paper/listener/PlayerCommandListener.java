@@ -21,7 +21,7 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
 
     @Override
     public boolean ignoreCancelled() {
-        return true;
+        return false;
     }
 
     @Override
