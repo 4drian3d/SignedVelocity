@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import java.util.function.Supplier;
 
 public interface DebugLogger {
-    // TODO: Change this on release
-    boolean DEBUG = PropertyHolder.readBoolean("io.github._4drian3d.signedvelocity.debug", true);
+    boolean DEBUG = PropertyHolder.readBoolean("io.github._4drian3d.signedvelocity.debug", false);
 
     void debugMultiple(Supplier<String[]> supplier);
 
