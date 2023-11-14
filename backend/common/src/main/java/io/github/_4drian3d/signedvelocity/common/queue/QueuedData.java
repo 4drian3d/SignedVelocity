@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 public final class QueuedData {
-    private static final int timeout = PropertyHolder.readInt("io.github._4drian3d.signedvelocity.timeout", 100);
+    private static final int timeout = PropertyHolder.readInt("io.github._4drian3d.signedvelocity.timeout", 45);
     private final Queue<SignedResult> results = new ConcurrentLinkedQueue<>();
     private final Queue<CompletableFuture<SignedResult>> unSyncronizedQueue = new ConcurrentLinkedQueue<>();
 

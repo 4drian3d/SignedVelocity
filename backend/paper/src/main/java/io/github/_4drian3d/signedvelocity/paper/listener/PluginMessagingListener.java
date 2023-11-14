@@ -28,6 +28,7 @@ public class PluginMessagingListener implements PluginMessageListener {
         if (!Objects.equals(channel, SignedVelocity.CHANNEL)) {
             return;
         }
+        plugin.debugLogger().debug(() -> "[Plugin Message] Received on: "+System.currentTimeMillis());
         @SuppressWarnings("UnstableApiUsage")
         final ByteArrayDataInput input = ByteStreams.newDataInput(message);
 
