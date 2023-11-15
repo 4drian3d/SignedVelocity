@@ -27,5 +27,6 @@
   },
   "mixins": [
     "signedvelocity.mixins.json"
-  ]
+  ],
+  "icon": "icon.png"
 }
