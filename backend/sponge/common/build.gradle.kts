@@ -1,4 +1,4 @@
 dependencies {
-    compileOnly("org.spongepowered:spongeapi:8.1.0")
+    compileOnly("org.spongepowered:spongeapi:8.2.0")
     implementation(projects.signedvelocityBackendCommon)
 }
