@@ -5,22 +5,21 @@ import com.google.common.io.ByteStreams;
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.common.queue.SignedResult;
 import io.github._4drian3d.signedvelocity.fabric.SignedVelocity;
-import net.fabricmc.fabric.impl.networking.payload.PacketByteBufPayload;
-import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
+import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
-import net.minecraft.server.network.ServerCommonPacketListenerImpl;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.UUID;
 
-@Mixin(value = ServerCommonPacketListenerImpl.class, priority = 10)
+@Mixin(value = ServerGamePacketListenerImpl.class, priority = 10)
 public abstract class ServerCommonPacketListenerMixin {
     @Inject(at = @At("HEAD"), method = "handleCustomPayload", cancellable = true)
     private void signedVelocity$onPluginMessage(ServerboundCustomPayloadPacket packet, CallbackInfo ci) {
-        if (packet.payload() instanceof PacketByteBufPayload payload && payload.id().equals(SignedVelocity.CHANNEL)) {
-            final ByteArrayDataInput input = ByteStreams.newDataInput(payload.data().unwrap().array());
+        if (packet.getIdentifier().equals(SignedVelocity.CHANNEL)) {
+            final ByteArrayDataInput input = ByteStreams.newDataInput(packet.getData().unwrap().array());
             final UUID playerId = UUID.fromString(input.readUTF());
             final String source = input.readUTF();
             final String result = input.readUTF();
