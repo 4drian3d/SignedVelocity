@@ -29,7 +29,7 @@ minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft
 
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
-mixinsextras = "io.github.llamalad7:mixinextras-fabric:0.2.0"
+mixinsextras = "io.github.llamalad7:mixinextras-fabric:0.2.1"
 
 bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 
