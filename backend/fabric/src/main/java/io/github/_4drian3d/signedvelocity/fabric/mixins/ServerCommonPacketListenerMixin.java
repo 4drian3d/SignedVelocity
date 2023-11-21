@@ -19,7 +19,7 @@ public abstract class ServerCommonPacketListenerMixin {
     @Inject(at = @At("HEAD"), method = "handleCustomPayload", cancellable = true)
     private void signedVelocity$onPluginMessage(ServerboundCustomPayloadPacket packet, CallbackInfo ci) {
         if (packet.getIdentifier().equals(SignedVelocity.CHANNEL)) {
-            final ByteArrayDataInput input = ByteStreams.newDataInput(packet.getData().unwrap().array());
+            final ByteArrayDataInput input = ByteStreams.newDataInput(packet.getData().accessByteBufWithCorrectSize());
             final UUID playerId = UUID.fromString(input.readUTF());
             final String source = input.readUTF();
             final String result = input.readUTF();
