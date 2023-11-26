@@ -37,7 +37,7 @@ public final class PlayerChatListener implements EventListener<AsyncChatEvent>, 
     @Override
     public void handle(final @NotNull AsyncChatEvent event) {
         debugLogger.debug(() -> "[CHAT] Init Message Handling | Received on: "+System.currentTimeMillis());
-        if (CHECK_FOR_LOCAL_CHAT && isLocal()) {
+        if (CHECK_FOR_LOCAL_CHAT && (!event.isAsynchronous() || isLocal())) {
             debugLogger.debug(() -> "[CHAT] Local Message Executed");
             return;
         }
