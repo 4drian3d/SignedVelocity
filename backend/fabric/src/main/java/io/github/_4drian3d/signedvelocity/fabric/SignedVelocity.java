@@ -2,6 +2,7 @@ package io.github._4drian3d.signedvelocity.fabric;
 
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import net.fabricmc.api.DedicatedServerModInitializer;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,5 +16,11 @@ public final class SignedVelocity implements DedicatedServerModInitializer {
     @Override
     public void onInitializeServer() {
         LOGGER.info("Started SignedVelocity");
+
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            final var uuid = handler.getPlayer().getUUID();
+            CHAT_QUEUE.removeData(uuid);
+            COMMAND_QUEUE.removeData(uuid);
+        });
     }
 }
