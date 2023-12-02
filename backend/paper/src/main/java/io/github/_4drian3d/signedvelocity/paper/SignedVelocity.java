@@ -31,19 +31,22 @@ public final class SignedVelocity extends JavaPlugin {
         server.getMessenger().registerIncomingPluginChannel(this, CHANNEL, new PluginMessagingListener(this));
 
         final PluginManager pluginManager = server.getPluginManager();
-        Stream.of(
+        final EventListener<?>[] listeners = {
                 new DecorateChatListener(this),
                 new PlayerChatListener(this),
                 new PlayerCommandListener(this),
                 new PlayerQuitListener(this)
-        ).forEach(listener -> pluginManager.registerEvent(
-                listener.eventClass(),
-                listener,
-                listener.priority(),
-                listener,
-                this,
-                listener.ignoreCancelled()
-        ));
+        };
+        for (final EventListener<?> listener : listeners) {
+            pluginManager.registerEvent(
+                    listener.eventClass(),
+                    listener,
+                    listener.priority(),
+                    listener,
+                    this,
+                    listener.ignoreCancelled()
+            );
+        }
         if (LEGACY_PLUGIN_WARNING) {
             this.blameAboutLegacyPlugins();
         }

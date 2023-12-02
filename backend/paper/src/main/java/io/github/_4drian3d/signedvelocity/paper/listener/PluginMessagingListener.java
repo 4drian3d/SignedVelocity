@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PluginMessagingListener implements PluginMessageListener {
+public final class PluginMessagingListener implements PluginMessageListener {
     private final SignedVelocity plugin;
 
     public PluginMessagingListener(final SignedVelocity plugin) {
