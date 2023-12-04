@@ -15,12 +15,12 @@ public final class SignedVelocity implements DedicatedServerModInitializer {
 
     @Override
     public void onInitializeServer() {
-        LOGGER.info("Started SignedVelocity");
-
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             final var uuid = handler.getPlayer().getUUID();
             CHAT_QUEUE.removeData(uuid);
             COMMAND_QUEUE.removeData(uuid);
         });
+
+        LOGGER.info("Started SignedVelocity");
     }
 }
