@@ -10,8 +10,9 @@ public sealed interface PacketAdapter permits PacketEventsAdapter, VPacketEvents
 
   static void register(final Injector injector, final PluginManager pluginManager) {
     final Map<String, Class<? extends PacketAdapter>> adapters = Map.of(
-            "packetevents", PacketEventsAdapter.class,
-            "vpacketevents", VPacketEventsAdapter.class
+            "packetevents", PacketEventsAdapter.class
+            // TODO: Re-enable soon
+            //"vpacketevents", VPacketEventsAdapter.class
             // Probable support of protocolize?
     );
     for (final var adapter : adapters.entrySet()) {
