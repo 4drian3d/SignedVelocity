@@ -8,7 +8,7 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 
 ## Requirements
 - Java 17+
-- Velocity 3.2.0+
+- Velocity 3.3.0+
 #### **Backend:**
 - Java 17+
 - Paper 1.19.4+ or Sponge 1.16.5+ (API 8.1+)
