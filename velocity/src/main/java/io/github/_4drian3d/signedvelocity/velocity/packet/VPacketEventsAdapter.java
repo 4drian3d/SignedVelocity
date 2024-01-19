@@ -2,7 +2,7 @@ package io.github._4drian3d.signedvelocity.velocity.packet;
 
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.EventManager;
-import com.velocitypowered.proxy.protocol.packet.ServerData;
+import com.velocitypowered.proxy.protocol.packet.ServerDataPacket;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import io.github._4drian3d.vpacketevents.api.event.PacketSendEvent;
 
@@ -14,8 +14,8 @@ final class VPacketEventsAdapter implements PacketAdapter {
 
   static {
     try {
-      final MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(ServerData.class, MethodHandles.lookup());
-      ENFORCED_SETTER = lookup.findSetter(ServerData.class, "secureChatEnforced", Boolean.TYPE);
+      final MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(ServerDataPacket.class, MethodHandles.lookup());
+      ENFORCED_SETTER = lookup.findSetter(ServerDataPacket.class, "secureChatEnforced", Boolean.TYPE);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -29,7 +29,7 @@ final class VPacketEventsAdapter implements PacketAdapter {
   @Override
   public void register() {
     eventManager.register(plugin, PacketSendEvent.class, event -> {
-      if (!(event.getPacket() instanceof final ServerData serverData)) {
+      if (!(event.getPacket() instanceof final ServerDataPacket serverData)) {
         return;
       }
       if (serverData.isSecureChatEnforced()) {

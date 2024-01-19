@@ -17,10 +17,9 @@ dependencyResolutionManagement {
     repositories {
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://repo.codemc.io/repository/maven-releases/")
-        maven("https://repo.william278.net/velocity/'")
+        maven("https://repo.william278.net/velocity/")
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
         maven("https://maven.fabricmc.net/")
-        maven("https://maven.elytrium.net/repo/")
         maven("https://jitpack.io")
     }
 }
