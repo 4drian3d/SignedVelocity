@@ -13,7 +13,7 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 - Java 17+
 - Paper 1.19.4+ or Sponge 1.16.5+ (API 8.1+)
 - Sponge API 8.1/10+
-- Minestom
+- Minestom 1.20.4+
 
 ## Features
 - Transmit the modification and cancellation status of Velocity messages and commands to your backend server using plugin messages. This avoids chat chain synchronization problems and avoids Velocity's security check by correctly synchronizing messages.

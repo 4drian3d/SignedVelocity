@@ -24,28 +24,29 @@ public final class PluginMessageListener implements Consumer<PlayerPluginMessage
         if (!Objects.equals(event.getIdentifier(), SignedVelocity.CHANNEL)) {
             return;
         }
-        @SuppressWarnings("UnstableApiUsage")
-        final DataInput input = new DataInput(event.getMessage());
+        try (final DataInput input = new DataInput(event.getMessage())) {
+            final UUID playerId = UUID.fromString(input.readUTF());
+            final String source = input.readUTF();
+            final String result = input.readUTF();
 
-        final UUID playerId = UUID.fromString(input.readUTF());
-        final String source = input.readUTF();
-        final String result = input.readUTF();
-
-        final SignedQueue queue = switch (source) {
-            case "COMMAND_RESULT" -> extension.commandQueue();
-            case "CHAT_RESULT" -> extension.chatQueue();
-            default -> throw new IllegalArgumentException("Invalid source " + source);
-        };
-        final SignedResult resulted = switch (result) {
-            case "CANCEL" -> SignedResult.cancel();
-            case "MODIFY" -> SignedResult.modify(input.readUTF());
-            case "ALLOWED" -> SignedResult.allowed();
-            default -> throw new IllegalArgumentException("Invalid result " + result);
-        };
-        queue.dataFrom(playerId).complete(resulted);
+            final SignedQueue queue = switch (source) {
+                case "COMMAND_RESULT" -> extension.commandQueue();
+                case "CHAT_RESULT" -> extension.chatQueue();
+                default -> throw new IllegalArgumentException("Invalid source " + source);
+            };
+            final SignedResult resulted = switch (result) {
+                case "CANCEL" -> SignedResult.cancel();
+                case "MODIFY" -> SignedResult.modify(input.readUTF());
+                case "ALLOWED" -> SignedResult.allowed();
+                default -> throw new IllegalArgumentException("Invalid result " + result);
+            };
+            queue.dataFrom(playerId).complete(resulted);
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
     }
 
-    private record DataInput(DataInputStream dataStream) {
+    private record DataInput(DataInputStream dataStream) implements AutoCloseable {
         DataInput(final byte[] data) {
             this(new DataInputStream(new ByteArrayInputStream(data)));
         }
@@ -56,6 +57,11 @@ public final class PluginMessageListener implements Consumer<PlayerPluginMessage
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        @Override
+        public void close() throws Exception {
+            dataStream.close();
         }
     }
 }
