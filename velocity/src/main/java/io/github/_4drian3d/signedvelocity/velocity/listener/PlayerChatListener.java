@@ -9,7 +9,6 @@ import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import io.github._4drian3d.signedvelocity.velocity.DataBuilder;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 
 import java.util.Objects;
@@ -53,13 +52,11 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
             // Cancelled
             // | The result is to cancel the execution
             if (finalMessage == null) {
-                final DataBuilder builder = DataBuilder
-                        .builder()
-                        .append(player.getUniqueId().toString())
-                        .append("CHAT_RESULT")
-                        .append("CANCEL");
-                final byte[] data = builder.build();
-                server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+                server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+                    output.writeUTF(player.getUniqueId().toString());
+                    output.writeUTF("CHAT_RESULT");
+                    output.writeUTF("CANCEL");
+                });
                 continuation.resume();
                 return;
             }
@@ -75,14 +72,12 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
 
             // Modified
             // | The result is to modify the command
-            final DataBuilder builder = DataBuilder
-                    .builder()
-                    .append(player.getUniqueId().toString())
-                    .append("CHAT_RESULT")
-                    .append("MODIFY")
-                    .append(finalMessage);
-            final byte[] data = builder.build();
-            server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+            server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+                output.writeUTF(player.getUniqueId().toString());
+                output.writeUTF("CHAT_RESULT");
+                output.writeUTF("MODIFY");
+                output.writeUTF(finalMessage);
+            });
 
             continuation.resume();
         });
@@ -93,13 +88,11 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
         eventManager.register(plugin, PlayerChatEvent.class, PostOrder.LAST, this);
     }
 
-    private void allowedData(Player player, RegisteredServer server) {
-        final DataBuilder builder = DataBuilder
-                .builder()
-                .append(player.getUniqueId().toString())
-                .append("CHAT_RESULT")
-                .append("ALLOWED");
-        final byte[] data = builder.build();
-        server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+    private void allowedData(final Player player, final RegisteredServer server) {
+        server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+            output.writeUTF(player.getUniqueId().toString());
+            output.writeUTF("CHAT_RESULT");
+            output.writeUTF("ALLOWED");
+        });
     }
 }

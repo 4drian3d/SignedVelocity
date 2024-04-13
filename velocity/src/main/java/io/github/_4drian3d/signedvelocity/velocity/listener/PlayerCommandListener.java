@@ -10,7 +10,6 @@ import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import io.github._4drian3d.signedvelocity.velocity.DataBuilder;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -66,13 +65,11 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
             // Cancelled
             // | The result is to cancel the execution
             if (finalCommand == null) {
-                final DataBuilder builder = DataBuilder
-                        .builder()
-                        .append(player.getUniqueId().toString())
-                        .append("COMMAND_RESULT")
-                        .append("CANCEL");
-                final byte[] data = builder.build();
-                server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+                server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+                    output.writeUTF(player.getUniqueId().toString());
+                    output.writeUTF("COMMAND_RESULT");
+                    output.writeUTF("CANCEL");
+                });
                 event.setResult(CommandExecuteEvent.CommandResult.forwardToServer());
                 continuation.resume();
                 return;
@@ -90,14 +87,12 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
 
             // Modified
             // | The result is to modify the command
-            final DataBuilder builder = DataBuilder
-                    .builder()
-                    .append(player.getUniqueId().toString())
-                    .append("COMMAND_RESULT")
-                    .append("MODIFY")
-                    .append(finalCommand);
-            final byte[] data = builder.build();
-            server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+            server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+                output.writeUTF(player.getUniqueId().toString());
+                output.writeUTF("COMMAND_RESULT");
+                output.writeUTF("MODIFY");
+                output.writeUTF(finalCommand);
+            });
             if (this.isProxyCommand(event.getCommand())) {
                 event.setResult(CommandExecuteEvent.CommandResult.command(finalCommand));
             } else {
@@ -107,14 +102,12 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
         });
     }
 
-    private void allowedData(Player player, RegisteredServer server) {
-        final DataBuilder builder = DataBuilder
-                .builder()
-                .append(player.getUniqueId().toString())
-                .append("COMMAND_RESULT")
-                .append("ALLOWED");
-        final byte[] data = builder.build();
-        server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, data);
+    private void allowedData(final Player player, final RegisteredServer server) {
+        server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+            output.writeUTF(player.getUniqueId().toString());
+            output.writeUTF("COMMAND_RESULT");
+            output.writeUTF("ALLOWED");
+        });
     }
 
     private boolean isProxyCommand(final String command) {
