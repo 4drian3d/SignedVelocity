@@ -47,4 +47,4 @@ shadow = { id = "io.github.goooler.shadow", version.ref = "shadow" }
 runvelocity = { id = "xyz.jpenilla.run-velocity", version.ref = "runvelocity" }
 runpaper = { id = "xyz.jpenilla.run-paper", version.ref = "runvelocity" }
 pluginyml-paper = { id = "net.minecrell.plugin-yml.paper", version = "0.6.0" }
-idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
+idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.8" }
