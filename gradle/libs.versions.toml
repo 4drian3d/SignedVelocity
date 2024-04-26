@@ -7,17 +7,17 @@ velocity = "3.3.0-SNAPSHOT"
 paper = "1.20.4-R0.1-SNAPSHOT"
 minestom-server = "7320437640"
 minestom-extensions = "1.2.0"
-minecraft = "1.20.4"
+minecraft = "1.20.5"
 
 # Gradle Plugins
 blossom = "2.1.0"
-shadow = "8.1.6"
+shadow = "8.1.7"
 runvelocity = "2.2.3"
 
 bstats = "3.0.2"
 
-fabric-api = "0.94.1+1.20.4"
-fabric-loader = "0.15.6"
+fabric-api = "0.97.6+1.20.5"
+fabric-loader = "0.15.10"
 
 [libraries]
 

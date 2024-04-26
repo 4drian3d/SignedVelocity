@@ -7,7 +7,6 @@
     "ChatCommandPacketMixin",
     "PlayerChatMixin",
     "PlayerListMixin",
-    "ServerCommonPacketListenerMixin",
     "ServerGamePacketListenerMixin"
   ],
   "injectors": {
