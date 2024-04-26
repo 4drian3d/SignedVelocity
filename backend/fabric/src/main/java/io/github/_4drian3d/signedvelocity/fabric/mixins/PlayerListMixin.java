@@ -21,6 +21,7 @@ public abstract class PlayerListMixin {
     @Shadow
     public abstract void broadcastChatMessage(PlayerChatMessage playerChatMessage, ServerPlayer serverPlayer, ChatType.Bound bound);
 
+    @SuppressWarnings({"DataFlowIssue", "UnreachableCode"})
     @Inject(
             method = "broadcastChatMessage(Lnet/minecraft/network/chat/PlayerChatMessage;Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/network/chat/ChatType$Bound;)V",
             at = @At("HEAD"), cancellable = true)
