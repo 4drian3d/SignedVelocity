@@ -3,7 +3,10 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.minestom)
+    compileOnly(libs.minestom.server) {
+        exclude("com.github.MadMartian", "hydrazine-path-finding")
+    }
+    compileOnly(libs.minestom.extensions)
     implementation(projects.signedvelocityBackendCommon)
 }
 

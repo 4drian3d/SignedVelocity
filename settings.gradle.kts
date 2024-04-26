@@ -20,6 +20,7 @@ dependencyResolutionManagement {
         maven("https://repo.william278.net/velocity/")
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
         maven("https://maven.fabricmc.net/")
+        maven("https://jitpack.io")
     }
 }
 
