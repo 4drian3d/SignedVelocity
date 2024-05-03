@@ -38,7 +38,7 @@ packetevents = { group = "com.github.retrooper.packetevents", name = "velocity",
 vpacketevents = { group = "io.github.4drian3d", name = "vpacketevents-api", version = "1.1.0" }
 
 annotations = "org.jetbrains:annotations:24.1.0"
-slf4j = "org.slf4j:slf4j-api:2.0.12"
+slf4j = "org.slf4j:slf4j-api:2.0.13"
 
 [plugins]
 
