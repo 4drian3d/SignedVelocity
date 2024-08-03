@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public final class SignedVelocity implements DedicatedServerModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("SignedVelocity");
-    public static final ResourceLocation CHANNEL = new ResourceLocation.of("signedvelocity", "main");
+    public static final ResourceLocation CHANNEL = ResourceLocation.of("signedvelocity", "main");
     public static final SignedQueue CHAT_QUEUE = new SignedQueue();
     public static final SignedQueue COMMAND_QUEUE = new SignedQueue();
 
