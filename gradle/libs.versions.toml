@@ -12,12 +12,12 @@ minecraft = "1.21"
 # Gradle Plugins
 blossom = "2.1.0"
 shadow = "8.1.7"
-runvelocity = "2.2.3"
+runvelocity = "2.3.0"
 
 bstats = "3.0.2"
 
 fabric-api = "0.100.8+1.21"
-fabric-loader = "0.15.10"
+fabric-loader = "0.16.0"
 
 [libraries]
 
@@ -34,11 +34,11 @@ fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = 
 
 bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 
-packetevents = { group = "com.github.retrooper.packetevents", name = "velocity", version = "2.2.1" }
+packetevents = { group = "com.github.retrooper.packetevents", name = "velocity", version = "2.3.0" }
 vpacketevents = { group = "io.github.4drian3d", name = "vpacketevents-api", version = "1.1.0" }
 
 annotations = "org.jetbrains:annotations:24.1.0"
-slf4j = "org.slf4j:slf4j-api:2.0.12"
+slf4j = "org.slf4j:slf4j-api:2.0.13"
 
 [plugins]
 
@@ -47,4 +47,4 @@ shadow = { id = "io.github.goooler.shadow", version.ref = "shadow" }
 runvelocity = { id = "xyz.jpenilla.run-velocity", version.ref = "runvelocity" }
 runpaper = { id = "xyz.jpenilla.run-paper", version.ref = "runvelocity" }
 pluginyml-paper = { id = "net.minecrell.plugin-yml.paper", version = "0.6.0" }
-idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
+idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.8" }
