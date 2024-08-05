@@ -29,6 +29,7 @@ public final class PluginMessageListener implements Listener<PluginMessageEvent>
       if (Objects.equals(event.getIdentifier(), SignedVelocity.SIGNEDVELOCITY_CHANNEL)
               && event.getSource() instanceof Player player) {
        player.disconnect(Component.translatable("velocity.error.internal-server-connection-error", NamedTextColor.RED));
+       event.setResult(PluginMessageEvent.ForwardResult.handled());
       }
     });
   }
