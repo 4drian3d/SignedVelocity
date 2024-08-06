@@ -1,5 +1,7 @@
 package io.github._4drian3d.signedvelocity.fabric.model;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import io.github._4drian3d.signedvelocity.fabric.SignedVelocity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,12 +22,12 @@ public record QueuedDataPacket(
   public static final StreamCodec<ByteBuf, QueuedDataPacket> PACKET_CODEC = CustomPacketPayload.codec(QueuedDataPacket::write, QueuedDataPacket::generate);
 
   public static QueuedDataPacket generate(final ByteBuf buf) {
-    final FriendlyByteBuf friendlyByteBuf = new FriendlyByteBuf(buf);
-    final UUID playerId = friendlyByteBuf.readUUID();
-    final String source = friendlyByteBuf.readUtf();
-    final String result = friendlyByteBuf.readUtf();
+    final ByteArrayDataInput input = ByteStreams.newDataInput(convertFromBuf(buf));
+    final UUID playerId = UUID.fromString(input.readUTF());
+    final String source = input.readUTF();
+    final String result = input.readUTF();
     final String modifiedMessage = result.equals("MODIFY")
-            ? friendlyByteBuf.readUtf()
+            ? input.readUTF()
             : null;
     return new QueuedDataPacket(playerId, source, result, modifiedMessage);
   }
@@ -42,5 +44,11 @@ public record QueuedDataPacket(
   @Override
   public @NotNull Type<? extends CustomPacketPayload> type() {
     return PACKET_ID;
+  }
+
+  private static byte[] convertFromBuf(final ByteBuf buf) {
+    final byte[] bytes = new byte[buf.readableBytes()];
+    buf.readBytes(bytes);
+    return bytes;
   }
 }
