@@ -10,11 +10,10 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 - Java 21+
 - Velocity 3.3.0+
 #### **Backend:**
-- Java 17+
-- Paper 1.19.4+ or Sponge 1.16.5+ (API 8.1+)
-- Sponge API 8.1/10+
+- Paper 1.19.4+ 
+- Sponge 8.1/10+
 - Minestom 1.20.4+
-- Fabric 1.20.5+
+- Fabric 1.21+
 
 ## Features
 - Transmit the modification and cancellation status of Velocity messages and commands to your backend server using plugin messages. This avoids chat chain synchronization problems and avoids Velocity's security check by correctly synchronizing messages.
@@ -37,6 +36,10 @@ In order for SignedVelocity to work, you must install it on both Velocity and al
 - Download the version of SignedVelocity-Sponge that is compatible with your server.
   SignedVelocity-Sponge-8 supports API 8.1 and 9, SignedVelocity-Sponge-10 supports API 10 and 11
 - Drag and drop on your Sponge plugins folder
+- Start your server
+### Fabric
+- Download the version of SignedVelocity Fabric that corresponds to your server version
+- Drag and drop on your Fabric mods folder
 - Start your server
 ### Minestom
 - Download SignedVelocity-Minestom
