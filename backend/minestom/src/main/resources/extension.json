@@ -1,6 +1,0 @@
-{
-  "entrypoint": "io.github._4drian3d.signedvelocity.minestom.SignedVelocity",
-  "name": "SignedVelocity",
-  "version": "${version}",
-  "externalDependencies": {}
-}

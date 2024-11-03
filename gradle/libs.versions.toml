@@ -5,8 +5,7 @@ metadata.format.version = "1.1"
 # CompileOnly dependencies
 velocity = "3.3.0-SNAPSHOT"
 paper = "1.21-R0.1-SNAPSHOT"
-minestom-server = "7320437640"
-minestom-extensions = "1.2.0"
+minestom-server = "c148954a47"
 minecraft = "1.21"
 
 # Gradle Plugins
@@ -26,7 +25,6 @@ velocity-api = { group = "com.velocitypowered", name = "velocity-api", version.r
 velocity-proxy = { group = "com.velocitypowered", name = "velocity-proxy", version.ref = "velocity" }
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 minestom-server = { module = "net.minestom:minestom-snapshots", version.ref = "minestom-server" }
-minestom-extensions = { module = "dev.hollowcube:minestom-ce-extensions", version.ref = "minestom-extensions" }
 minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
 
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }

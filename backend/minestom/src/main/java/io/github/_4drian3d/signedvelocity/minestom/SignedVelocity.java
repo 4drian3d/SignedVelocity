@@ -8,34 +8,30 @@ import net.minestom.server.event.player.PlayerChatEvent;
 import net.minestom.server.event.player.PlayerCommandEvent;
 import net.minestom.server.event.player.PlayerDisconnectEvent;
 import net.minestom.server.event.player.PlayerPluginMessageEvent;
-import net.minestom.server.extensions.Extension;
+import net.minestom.server.MinecraftServer;
+import org.jetbrains.annotations.NotNull;
 
-public final class SignedVelocity extends Extension {
+public final class SignedVelocity {
     public static final String CHANNEL = "signedvelocity:main";
-    private final SignedQueue chatQueue = new SignedQueue();
-    private final SignedQueue commandQueue = new SignedQueue();
+    private static final SignedQueue chatQueue = new SignedQueue();
+    private static final SignedQueue commandQueue = new SignedQueue();
 
-    @Override
-    public void initialize() {
-        getEventNode().addListener(PlayerChatEvent.class, new PlayerChatListener(this));
-        getEventNode().addListener(PlayerCommandEvent.class, new PlayerCommandListener(this));
-        getEventNode().addListener(PlayerPluginMessageEvent.class, new PluginMessageListener(this));
-        getEventNode().addListener(PlayerDisconnectEvent.class, event -> {
-            final var uuid = event.getPlayer().getUuid();
-            this.commandQueue.removeData(uuid);
-            this.chatQueue.removeData(uuid);
+    public static void initialize() {
+        MinecraftServer.getGlobalEventHandler().addListener(PlayerChatEvent.class, new PlayerChatListener());
+        MinecraftServer.getGlobalEventHandler().addListener(PlayerCommandEvent.class, new PlayerCommandListener());
+        MinecraftServer.getGlobalEventHandler().addListener(PlayerPluginMessageEvent.class, new PluginMessageListener());
+        MinecraftServer.getGlobalEventHandler().addListener(PlayerDisconnectEvent.class, event -> {
+            final @NotNull var uuid = event.getPlayer().getUuid();
+            commandQueue.removeData(uuid);
+            chatQueue.removeData(uuid);
         });
     }
 
-    @Override
-    public void terminate() {
-    }
-
-    public SignedQueue chatQueue() {
+    public static SignedQueue chatQueue() {
         return chatQueue;
     }
 
-    public SignedQueue commandQueue() {
+    public static SignedQueue commandQueue() {
         return commandQueue;
     }
 }

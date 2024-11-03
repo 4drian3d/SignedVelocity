@@ -13,11 +13,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 public final class PluginMessageListener implements Consumer<PlayerPluginMessageEvent> {
-    private final SignedVelocity extension;
-
-    public PluginMessageListener(final SignedVelocity extension) {
-        this.extension = extension;
-    }
 
     @Override
     public void accept(PlayerPluginMessageEvent event) {
@@ -30,8 +25,8 @@ public final class PluginMessageListener implements Consumer<PlayerPluginMessage
             final String result = input.readUTF();
 
             final SignedQueue queue = switch (source) {
-                case "COMMAND_RESULT" -> extension.commandQueue();
-                case "CHAT_RESULT" -> extension.chatQueue();
+                case "COMMAND_RESULT" -> SignedVelocity.commandQueue();
+                case "CHAT_RESULT" -> SignedVelocity.chatQueue();
                 default -> throw new IllegalArgumentException("Invalid source " + source);
             };
             final SignedResult resulted = switch (result) {
