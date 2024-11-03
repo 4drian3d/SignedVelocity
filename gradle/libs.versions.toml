@@ -37,7 +37,7 @@ bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 packetevents = { group = "com.github.retrooper", name = "packetevents-velocity", version = "2.4.0" }
 vpacketevents = { group = "io.github.4drian3d", name = "vpacketevents-api", version = "1.1.0" }
 
-annotations = "org.jetbrains:annotations:24.1.0"
+annotations = "org.jetbrains:annotations:26.0.1"
 slf4j = "org.slf4j:slf4j-api:2.0.16"
 
 [plugins]
