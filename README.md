@@ -12,7 +12,7 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 #### **Backend:**
 - Paper 1.19.4+ 
 - Sponge 8.1/10+
-- Minestom 1.20.4+
+- [Minestom](https://github.com/4drian3d/SignedVelocity?tab=readme-ov-file#minestom)
 - Fabric 1.21+
 
 ## Features
@@ -42,9 +42,35 @@ In order for SignedVelocity to work, you must install it on both Velocity and al
 - Drag and drop on your Fabric mods folder
 - Start your server
 ### Minestom
-- Download SignedVelocity-Minestom
-- Drag and drop on your Minestom extensions folder
-- Start your server
+
+In the case of Minestom, SignedVelocity from version 1.3.0 onwards is used in the form of a library
+so that it can be included in your own implementation.
+
+#### Maven Repository
+
+##### Gradle
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.4drian3d:signedvelocity-minestom:1.3.0")
+}
+```
+
+#### Example
+
+```java
+import io.github._4drian3d.signedvelocity.minestom.SignedVelocity;
+
+// then...
+
+SignedVelocity.initialize();
+```
+
+For older versions of Minestom, you can use SignedVelocity-Minestom 1.2.4 which comes as an extension
 
 [![](https://www.bisecthosting.com/partners/custom-banners/6fa909d5-ad2b-42c2-a7ec-1c51f8b6384f.webp)](https://www.bisecthosting.com/4drian3d)
 
