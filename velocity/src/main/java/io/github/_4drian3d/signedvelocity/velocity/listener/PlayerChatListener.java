@@ -3,7 +3,6 @@ package io.github._4drian3d.signedvelocity.velocity.listener;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
@@ -85,7 +84,7 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
 
     @Override
     public void register() {
-        eventManager.register(plugin, PlayerChatEvent.class, PostOrder.LAST, this);
+        eventManager.register(plugin, PlayerChatEvent.class, Short.MIN_VALUE, this);
     }
 
     private void allowedData(final Player player, final RegisteredServer server) {

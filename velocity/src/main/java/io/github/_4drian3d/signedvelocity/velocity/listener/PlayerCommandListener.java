@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.command.CommandExecuteEvent;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
@@ -25,7 +24,7 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
 
     @Override
     public void register() {
-        eventManager.register(plugin, CommandExecuteEvent.class, PostOrder.LAST, this);
+        eventManager.register(plugin, CommandExecuteEvent.class, Short.MIN_VALUE, this);
     }
 
     @Override
@@ -112,15 +111,26 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
 
     private boolean isProxyCommand(final String command) {
         final int firstIndexOfSpace = command.indexOf(' ');
-        // In case the command executed is for example "/      test asd"
-        if (firstIndexOfSpace == 0) {
-            final String[] arguments = command.split(" ");
-            for (final String argument : arguments) {
-                if (argument.isBlank()) continue;
-                return this.commandManager.hasCommand(argument);
+
+        return switch (firstIndexOfSpace) {
+            // If the command has no spaces
+            case -1 -> this.commandManager.hasCommand(command);
+            // In case the command executed is for example "/      test asd"
+            case 0 -> {
+                final String[] arguments = command.split(" ");
+                // All blanks are filtered out until the first argument is reached
+                for (final String argument : arguments) {
+                    if (argument.isBlank()) continue;
+                    yield this.commandManager.hasCommand(argument);
+                }
+                final String firstArgument = command.substring(0, firstIndexOfSpace);
+                yield this.commandManager.hasCommand(firstArgument);
             }
-        }
-        final String firstArgument = command.substring(0, firstIndexOfSpace);
-        return this.commandManager.hasCommand(firstArgument);
+            // Normal execution with multiple arguments "/test asd"
+            default ->  {
+                final String firstArgument = command.substring(0, firstIndexOfSpace);
+                yield this.commandManager.hasCommand(firstArgument);
+            }
+        };
     }
 }

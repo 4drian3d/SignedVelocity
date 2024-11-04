@@ -49,6 +49,5 @@ public final class SignedVelocity {
 
     Listener.register(injector);
     PacketAdapter.register(injector, pluginManager);
-    server.getChannelRegistrar().register(SIGNEDVELOCITY_CHANNEL);
   }
 }
