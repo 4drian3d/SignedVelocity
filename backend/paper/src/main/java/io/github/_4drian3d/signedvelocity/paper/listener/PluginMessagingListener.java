@@ -29,7 +29,6 @@ public final class PluginMessagingListener implements PluginMessageListener {
             return;
         }
         plugin.debugLogger().debug(() -> "[Plugin Message] Received on: "+System.currentTimeMillis());
-        @SuppressWarnings("UnstableApiUsage")
         final ByteArrayDataInput input = ByteStreams.newDataInput(message);
 
         final UUID playerId = UUID.fromString(input.readUTF());
