@@ -7,7 +7,6 @@ import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 
 import java.util.Objects;
@@ -32,9 +31,7 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
                 return;
             }
 
-            final RegisteredServer server = player.getCurrentServer()
-                    .map(ServerConnection::getServer)
-                    .orElseThrow();
+            final ServerConnection server = player.getCurrentServer().orElseThrow();
 
             // Allowed
             // | If the message is allowed simply transmit that should be accepted
@@ -87,7 +84,7 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
         eventManager.register(plugin, PlayerChatEvent.class, Short.MIN_VALUE, this);
     }
 
-    private void allowedData(final Player player, final RegisteredServer server) {
+    private void allowedData(final Player player, final ServerConnection server) {
         server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
             output.writeUTF(player.getUniqueId().toString());
             output.writeUTF("CHAT_RESULT");
