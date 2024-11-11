@@ -22,6 +22,12 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 
    ![SignedVelocitySignedStatus](https://github.com/4drian3d/SignedVelocity/assets/68704415/4a7e2bec-c167-4de1-b827-d188d0afaa56)
 
+> [!WARNING]
+> SignedVelocity-Proxy versions prior to 1.3.0 contain an exploit that can be used
+> to replace the input of any player, and can give administrator permissions to malicious agents,
+> it is recommended to upgrade to the latest version.
+> SignedVelocity backend versions are not affected
+
 ## Installation
 In order for SignedVelocity to work, you must install it on both Velocity and all your servers
 ### Velocity

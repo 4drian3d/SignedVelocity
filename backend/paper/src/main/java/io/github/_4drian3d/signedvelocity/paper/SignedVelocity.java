@@ -80,7 +80,6 @@ public final class SignedVelocity extends JavaPlugin {
             this(clazz, handlerList.getRegisteredListeners());
         }
 
-        @SuppressWarnings("UnstableApiUsage")
         private void printWarning(final Logger logger) {
             logger.warn("------------------------------");
             final String legacyPluginList = legacyPluginList();
@@ -90,6 +89,7 @@ public final class SignedVelocity extends JavaPlugin {
             logger.warn("------------------------------");
         }
 
+        @SuppressWarnings("UnstableApiUsage")
         @NotNull
         private String legacyPluginList() {
             final StringJoiner builder = new StringJoiner(", ", "", ".");

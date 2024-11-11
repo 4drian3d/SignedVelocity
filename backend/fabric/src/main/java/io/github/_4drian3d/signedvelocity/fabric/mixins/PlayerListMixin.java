@@ -47,6 +47,7 @@ public abstract class PlayerListMixin {
         // Modified Result
         if (modified != null) {
             this.broadcastChatMessage(playerChatMessage.withUnsignedContent(Component.literal(modified)), serverPlayer, bound);
+            ci.cancel();
         }
     }
 }
