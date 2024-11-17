@@ -8,7 +8,6 @@ import com.velocitypowered.api.event.command.CommandExecuteEvent;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -33,9 +32,7 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
 
         if (!(event.getCommandSource() instanceof Player player)) return null;
         return EventTask.withContinuation(continuation -> {
-            final RegisteredServer server = player.getCurrentServer()
-                    .map(ServerConnection::getServer)
-                    .orElse(null);
+            final ServerConnection server = player.getCurrentServer().orElse(null);
 
             // The player is not connected to a server, there is nothing I can do.
             if (server == null) {
@@ -101,7 +98,7 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
         });
     }
 
-    private void allowedData(final Player player, final RegisteredServer server) {
+    private void allowedData(final Player player, final ServerConnection server) {
         server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
             output.writeUTF(player.getUniqueId().toString());
             output.writeUTF("COMMAND_RESULT");
