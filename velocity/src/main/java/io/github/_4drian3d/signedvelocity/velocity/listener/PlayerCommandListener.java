@@ -29,7 +29,12 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
     @Override
     public @Nullable EventTask executeAsync(final CommandExecuteEvent event) {
         final CommandExecuteEvent.CommandResult result = event.getResult();
+        // A plugin command invocation, like CommandManager#executeAsync(CommandSource, String)
+        if (event.getInvocationInfo().source() == CommandExecuteEvent.Source.API) {
+            return null;
+        }
 
+        // A non-player command invocation
         if (!(event.getCommandSource() instanceof Player player)) return null;
         return EventTask.withContinuation(continuation -> {
             final ServerConnection server = player.getCurrentServer().orElse(null);
