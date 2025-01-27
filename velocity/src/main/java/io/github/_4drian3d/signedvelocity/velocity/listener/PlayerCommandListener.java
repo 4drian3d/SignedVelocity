@@ -9,6 +9,8 @@ import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
+import io.github._4drian3d.signedvelocity.velocity.cache.ModificationCache;
+import io.github._4drian3d.signedvelocity.velocity.types.SignedResult;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
@@ -23,91 +25,140 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
 
     @Override
     public void register() {
-        eventManager.register(plugin, CommandExecuteEvent.class, Short.MIN_VALUE, this);
+        eventManager.register(plugin, CommandExecuteEvent.class, (short)-32760, this);
     }
 
     @Override
     public @Nullable EventTask executeAsync(final CommandExecuteEvent event) {
-        final CommandExecuteEvent.CommandResult result = event.getResult();
+        final CommandExecuteEvent.InvocationInfo invocationInfo = event.getInvocationInfo();
         // A plugin command invocation, like CommandManager#executeAsync(CommandSource, String)
-        if (event.getInvocationInfo().source() == CommandExecuteEvent.Source.API) {
-            return null;
-        }
-
+        if (invocationInfo.source() == CommandExecuteEvent.Source.API) return null;
         // A non-player command invocation
         if (!(event.getCommandSource() instanceof Player player)) return null;
+
         return EventTask.withContinuation(continuation -> {
             final ServerConnection server = player.getCurrentServer().orElse(null);
 
             // The player is not connected to a server, there is nothing I can do.
             if (server == null) {
+                plugin.logDebug("Command Execution | Null Server");
                 continuation.resume();
                 return;
             }
 
+            final CommandExecuteEvent.CommandResult result = event.getResult();
+            final String finalCommand = result.getCommand().orElse(null);
+
             // ALLOWED
-            // | If the command is allowed or will be redirected to the server,
+            // | If the command will be redirected to the server,
             // | simply transmit that the command should be accepted
-            if (result == CommandExecuteEvent.CommandResult.allowed() || result.isForwardToServer()) {
-                allowedData(player, server);
+            if (result.isForwardToServer()) {
+                plugin.logDebug("Command Execution | Forward to Server");
+                // If the command is sent to the server but modified,
+                // it is sent as unmodified and then modified on the backend server
+                if (finalCommand != null) {
+                    switch (invocationInfo.signedState()) {
+                        case SIGNED_WITH_ARGS, SIGNED_WITHOUT_ARGS -> {
+                            plugin.logDebug("Command Execution | Signed Command Executed, modified and forwarded");
+                            event.setResult(CommandExecuteEvent.CommandResult.forwardToServer());
+                            // Modified
+                            // | Modified Command but forwarded to backend server
+                            server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+                                output.writeUTF(player.getUniqueId().toString());
+                                output.writeUTF("COMMAND_RESULT");
+                                output.writeUTF("MODIFY");
+                                output.writeUTF(finalCommand);
+                            });
+                            continuation.resume();
+                            return;
+                        }
+                    }
+                }
+                plugin.logDebug("Command Execution | Command Forwarded to server");
+                // If the command has not been modified, it is simply allowed to be executed regularly
+                allowedData(player, server, SignedResult.COMMAND_RESULT);
+                continuation.resume();
+                return;
+            }
+
+
+            final boolean isProxyCommand = this.isProxyCommand(event.getCommand());
+            // ALLOWED
+            // | Direct command allowed
+            if (result == CommandExecuteEvent.CommandResult.allowed()) {
+                plugin.logDebug("Command Execution | Allowed Command");
+                // If it is detected that it is a command registered in Velocity,
+                // it delegates the sending of the SignedResult to the PostPlayerCommandListener to see
+                // if it is necessary to send it or if it was executed entirely in the Velocity command dispatcher
+                if (!isProxyCommand) {
+                    plugin.logDebug("Command Execution | Allowed non proxied command");
+                    allowedData(player, server, SignedResult.COMMAND_RESULT);
+                }
                 continuation.resume();
                 return;
             }
 
             // DENIED
             // | The player has an old version, so you can safely deny execution from Velocity
-            if (!result.isAllowed() && player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_19_1) < 0) {
+            if (!result.isAllowed() && player.getProtocolVersion().lessThan(ProtocolVersion.MINECRAFT_1_19_1)) {
+                plugin.logDebug("Command Execution | Old player version, denied command");
+                event.setResult(CommandExecuteEvent.CommandResult.denied());
                 continuation.resume();
                 return;
             }
 
-            final String finalCommand = result.getCommand().orElse(null);
-
             // Cancelled
             // | The result is to cancel the execution
             if (finalCommand == null) {
+                plugin.logDebug("Command Execution | Cancelled command execution");
                 server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
                     output.writeUTF(player.getUniqueId().toString());
                     output.writeUTF("COMMAND_RESULT");
                     output.writeUTF("CANCEL");
                 });
+                // The command can be sent securely to the backend server,
+                // thus preventing the Velocity dispatcher from trying to execute it,
+                // and the backend server denies its execution before the backend dispatcher recognizes it
                 event.setResult(CommandExecuteEvent.CommandResult.forwardToServer());
                 continuation.resume();
                 return;
             }
 
+
             // ALLOWED
             // | If the result of the event is to modify the command,
             // | but the modified command is the same as the executed one, simply accept the execution
             if (Objects.equals(finalCommand, event.getCommand())) {
-                allowedData(player, server);
+                plugin.logDebug("Command Execution | Same modification input, allowed");
                 event.setResult(CommandExecuteEvent.CommandResult.allowed());
                 continuation.resume();
                 return;
             }
 
-            // Modified
-            // | The result is to modify the command
-            server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
-                output.writeUTF(player.getUniqueId().toString());
-                output.writeUTF("COMMAND_RESULT");
-                output.writeUTF("MODIFY");
-                output.writeUTF(finalCommand);
-            });
-            if (this.isProxyCommand(event.getCommand())) {
-                event.setResult(CommandExecuteEvent.CommandResult.command(finalCommand));
-            } else {
-                event.setResult(CommandExecuteEvent.CommandResult.forwardToServer(finalCommand));
+            // --- Modification Section ---
+            plugin.logDebug("Command Execution | Modification Section");
+            if (!isProxyCommand) {
+                plugin.logDebug("Command Execution | Non proxied command");
+                // Modified
+                // | If the command is not registered in Velocity,
+                // | the dispatcher is prevented from even attempting to execute it
+                server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+                    output.writeUTF(player.getUniqueId().toString());
+                    output.writeUTF("COMMAND_RESULT");
+                    output.writeUTF("MODIFY");
+                    output.writeUTF(finalCommand);
+                });
+                // The command is passed as if it had not been modified so that the backend server can safely modify it
+                event.setResult(CommandExecuteEvent.CommandResult.forwardToServer());
+                continuation.resume();
+                return;
             }
-            continuation.resume();
-        });
-    }
 
-    private void allowedData(final Player player, final ServerConnection server) {
-        server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
-            output.writeUTF(player.getUniqueId().toString());
-            output.writeUTF("COMMAND_RESULT");
-            output.writeUTF("ALLOWED");
+            plugin.logDebug("Command Execution | Modified Command sent to Velocity Command Dispatcher");
+
+            event.setResult(CommandExecuteEvent.CommandResult.command(finalCommand));
+            plugin.modificationCache().put(player.getUniqueId().toString(), new ModificationCache(event.getCommand(), finalCommand));
+            continuation.resume();
         });
     }
 
@@ -116,22 +167,22 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
 
         return switch (firstIndexOfSpace) {
             // If the command has no spaces
-            case -1 -> this.commandManager.hasCommand(command);
+            case -1 -> commandManager.hasCommand(command);
             // In case the command executed is for example "/      test asd"
             case 0 -> {
                 final String[] arguments = command.split(" ");
                 // All blanks are filtered out until the first argument is reached
                 for (final String argument : arguments) {
                     if (argument.isBlank()) continue;
-                    yield this.commandManager.hasCommand(argument);
+                    yield commandManager.hasCommand(argument);
                 }
                 final String firstArgument = command.substring(0, firstIndexOfSpace);
-                yield this.commandManager.hasCommand(firstArgument);
+                yield commandManager.hasCommand(firstArgument);
             }
             // Normal execution with multiple arguments "/test asd"
             default ->  {
                 final String firstArgument = command.substring(0, firstIndexOfSpace);
-                yield this.commandManager.hasCommand(firstArgument);
+                yield commandManager.hasCommand(firstArgument);
             }
         };
     }
