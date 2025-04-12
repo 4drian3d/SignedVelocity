@@ -26,8 +26,12 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
 
             // Denied
             // | The player has an old version, so you can safely deny execution from Velocity
-            if (!result.isAllowed() && player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_19_1) < 0) {
+            if (player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_19_1) < 0) {
                 continuation.resume();
+                return;
+            }
+
+            if (!result.isAllowed()) {
                 return;
             }
 
