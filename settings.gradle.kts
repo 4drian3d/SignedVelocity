@@ -25,9 +25,9 @@ dependencyResolutionManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
-    id("org.spongepowered.gradle.plugin") version "2.2.0"
-    id("fabric-loom") version "1.9.2"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
+    id("org.spongepowered.gradle.plugin") version "2.3.0"
+    id("fabric-loom") version "1.10.2"
 }
 
 include("signedvelocity-backend-common")
