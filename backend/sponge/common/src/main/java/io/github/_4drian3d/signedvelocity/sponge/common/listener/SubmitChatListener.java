@@ -1,10 +1,8 @@
-package io.github._4drian3d.signedvelocity.sponge8.listener;
+package io.github._4drian3d.signedvelocity.sponge.common.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
-import io.github._4drian3d.signedvelocity.common.queue.SignedResult;
-import io.github._4drian3d.signedvelocity.sponge.common.listener.SignedListener;
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.EventContextKeys;
@@ -14,9 +12,7 @@ import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.message.PlayerChatEvent;
 import org.spongepowered.plugin.PluginContainer;
 
-import java.util.concurrent.CompletableFuture;
-
-public final class PlayerChatListener implements SignedListener<PlayerChatEvent> {
+public final class SubmitChatListener implements SignedListener<PlayerChatEvent.Submit> {
     @Inject
     @Named("chat")
     private SignedQueue chatQueue;
@@ -25,9 +21,8 @@ public final class PlayerChatListener implements SignedListener<PlayerChatEvent>
     @Inject
     private PluginContainer pluginContainer;
 
-
     @Override
-    public void handle(final PlayerChatEvent event) {
+    public void handle(final PlayerChatEvent.Submit event) {
         if (event.isCancelled()) {
             return;
         }
@@ -38,26 +33,24 @@ public final class PlayerChatListener implements SignedListener<PlayerChatEvent>
 
         event.cause()
                 .first(ServerPlayer.class)
-                .ifPresent(player -> {
-                    final CompletableFuture<SignedResult> futureResult = chatQueue.dataFrom(player.uniqueId()).nextResult();
-
-                    futureResult.thenAccept(result -> {
-                        if (result.cancelled()) {
-                            event.setCancelled(true);
-                        } else {
-                            final String modifiedChat = result.toModify();
-                            if (modifiedChat != null) {
-                                event.setMessage(Component.text(modifiedChat));
+                .ifPresent(player -> this.chatQueue.dataFrom(player.uniqueId())
+                        .nextResult()
+                        .thenAccept(result -> {
+                            if (result.cancelled()) {
+                                event.setCancelled(true);
+                            } else {
+                                final String modifiedChat = result.toModify();
+                                if (modifiedChat != null && !event.isSigned()) {
+                                    event.setMessage(Component.text(modifiedChat));
+                                }
                             }
-                        }
-                    }).join();
-                });
+                        }).join());
     }
 
     @Override
     public void register() {
         eventManager.registerListener(
-                EventListenerRegistration.builder(PlayerChatEvent.class)
+                EventListenerRegistration.builder(PlayerChatEvent.Submit.class)
                         .listener(this)
                         .plugin(this.pluginContainer)
                         .order(Order.PRE)

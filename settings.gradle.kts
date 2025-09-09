@@ -41,8 +41,6 @@ project(":signedvelocity-fabric").projectDir = file("backend/fabric")
 
 include("signedvelocity-sponge-common")
 project(":signedvelocity-sponge-common").projectDir = file("backend/sponge/common")
-include("signedvelocity-sponge-8")
-project(":signedvelocity-sponge-8").projectDir = file("backend/sponge/API-8")
 include("signedvelocity-sponge-10")
 project(":signedvelocity-sponge-10").projectDir = file("backend/sponge/API-10")
 include("signedvelocity-sponge-14")

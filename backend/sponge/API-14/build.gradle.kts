@@ -9,7 +9,6 @@ plugins {
 dependencies {
     implementation(projects.signedvelocityBackendCommon)
     implementation(projects.signedvelocitySpongeCommon)
-    implementation(projects.signedvelocitySponge10)
 }
 
 sponge {

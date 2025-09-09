@@ -1,8 +1,9 @@
-package io.github._4drian3d.signedvelocity.sponge.common.listener;
+package io.github._4drian3d.signedvelocity.sponge10.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
+import io.github._4drian3d.signedvelocity.sponge.common.listener.SignedListener;
 import org.spongepowered.api.event.EventListenerRegistration;
 import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Order;
