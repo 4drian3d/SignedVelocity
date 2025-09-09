@@ -45,6 +45,8 @@ include("signedvelocity-sponge-8")
 project(":signedvelocity-sponge-8").projectDir = file("backend/sponge/API-8")
 include("signedvelocity-sponge-10")
 project(":signedvelocity-sponge-10").projectDir = file("backend/sponge/API-10")
+include("signedvelocity-sponge-14")
+project(":signedvelocity-sponge-14").projectDir = file("backend/sponge/API-14")
 
 include("signedvelocity-proxy")
 project(":signedvelocity-proxy").projectDir = file("velocity")

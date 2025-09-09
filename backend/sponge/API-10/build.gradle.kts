@@ -20,7 +20,7 @@ sponge {
     }
     plugin("signedvelocity") {
         displayName("SignedVelocity")
-        entrypoint("io.github._4drian3d.signedvelocity.sponge.SignedVelocity")
+        entrypoint("io.github._4drian3d.signedvelocity.sponge10.SignedVelocity")
         description(project.description)
         links {
             homepage("https://github.com/4drian3d/SignedVelocity")

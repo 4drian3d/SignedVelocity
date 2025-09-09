@@ -1,4 +1,4 @@
-package io.github._4drian3d.signedvelocity.sponge;
+package io.github._4drian3d.signedvelocity.sponge10;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -6,9 +6,9 @@ import io.github._4drian3d.signedvelocity.sponge.common.handler.ProxyDataHandler
 import io.github._4drian3d.signedvelocity.sponge.common.listener.PlayerCommandListener;
 import io.github._4drian3d.signedvelocity.sponge.common.listener.SignedListener;
 import io.github._4drian3d.signedvelocity.sponge.common.modules.SignedModule;
-import io.github._4drian3d.signedvelocity.sponge.listener.DecorateChatListener;
+import io.github._4drian3d.signedvelocity.sponge10.listener.DecorateChatListener;
 import io.github._4drian3d.signedvelocity.sponge.common.listener.PlayerQuitListener;
-import io.github._4drian3d.signedvelocity.sponge.listener.SubmitChatListener;
+import io.github._4drian3d.signedvelocity.sponge10.listener.SubmitChatListener;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.event.Listener;

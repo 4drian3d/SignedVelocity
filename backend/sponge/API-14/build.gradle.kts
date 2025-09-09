@@ -9,10 +9,11 @@ plugins {
 dependencies {
     implementation(projects.signedvelocityBackendCommon)
     implementation(projects.signedvelocitySpongeCommon)
+    implementation(projects.signedvelocitySponge10)
 }
 
 sponge {
-    apiVersion("8.1.0")
+    apiVersion("14.0.0")
     license("GPL-3")
     loader {
         name(PluginLoaders.JAVA_PLAIN)
@@ -20,7 +21,7 @@ sponge {
     }
     plugin("signedvelocity") {
         displayName("SignedVelocity")
-        entrypoint("io.github._4drian3d.signedvelocity.sponge8.SignedVelocity")
+        entrypoint("io.github._4drian3d.signedvelocity.sponge14.SignedVelocity")
         description(project.description)
         links {
             homepage("https://github.com/4drian3d/SignedVelocity")
@@ -34,7 +35,7 @@ sponge {
             loadOrder(PluginDependency.LoadOrder.AFTER)
             optional(false)
         }
-        this.version("${project.version}-API8")
+        this.version("${project.version}-API14")
     }
 }
 
@@ -43,7 +44,7 @@ tasks {
         dependsOn(shadowJar)
     }
     shadowJar {
-        archiveBaseName.set("${rootProject.name}-Sponge-8")
+        archiveBaseName.set("${rootProject.name}-Sponge-14")
         archiveClassifier.set("")
         doLast {
             copy {
