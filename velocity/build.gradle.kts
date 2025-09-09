@@ -11,7 +11,7 @@ dependencies {
     annotationProcessor(libs.velocity.api)
     implementation(libs.bstats)
 
-    compileOnly(libs.packetevents)
+    compileOnly(libs.packetevents.velocity)
     compileOnly(libs.vpacketevents)
 }
 

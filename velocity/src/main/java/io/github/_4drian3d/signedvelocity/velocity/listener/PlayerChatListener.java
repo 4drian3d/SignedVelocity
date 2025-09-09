@@ -8,6 +8,7 @@ import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
+import io.github._4drian3d.signedvelocity.velocity.types.SignedResult;
 
 import java.util.Objects;
 
@@ -36,7 +37,7 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
             // Allowed
             // | If the message is allowed simply transmit that should be accepted
             if (result == PlayerChatEvent.ChatResult.allowed()) {
-                allowedData(player, server);
+                allowedData(player, server, SignedResult.CHAT_RESULT);
                 continuation.resume();
                 return;
             }
@@ -61,7 +62,7 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
             // | If the result of the event is to modify the message,
             // | but the modified message is the same as the executed one, simply accept the execution
             if (Objects.equals(finalMessage, event.getMessage())) {
-                allowedData(player, server);
+                allowedData(player, server, SignedResult.CHAT_RESULT);
                 continuation.resume();
                 return;
             }
@@ -82,13 +83,5 @@ final class PlayerChatListener implements Listener<PlayerChatEvent> {
     @Override
     public void register() {
         eventManager.register(plugin, PlayerChatEvent.class, Short.MIN_VALUE, this);
-    }
-
-    private void allowedData(final Player player, final ServerConnection server) {
-        server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
-            output.writeUTF(player.getUniqueId().toString());
-            output.writeUTF("CHAT_RESULT");
-            output.writeUTF("ALLOWED");
-        });
     }
 }

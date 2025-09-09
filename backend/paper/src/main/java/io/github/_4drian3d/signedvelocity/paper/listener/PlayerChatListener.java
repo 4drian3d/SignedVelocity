@@ -36,7 +36,7 @@ public final class PlayerChatListener implements EventListener<AsyncChatEvent>, 
 
     @Override
     public void handle(final @NotNull AsyncChatEvent event) {
-        debugLogger.debug(() -> "[CHAT] Init Message Handling | Received on: "+System.currentTimeMillis());
+        debugLogger.debug(() -> "[CHAT] Init Message Handling | Received on: " + System.currentTimeMillis());
         if (CHECK_FOR_LOCAL_CHAT && (!event.isAsynchronous() || isLocal())) {
             debugLogger.debug(() -> "[CHAT] Local Message Executed");
             return;
@@ -59,7 +59,7 @@ public final class PlayerChatListener implements EventListener<AsyncChatEvent>, 
         nextResult.thenAccept(result -> {
             debugLogger.debug(() -> "[CHAT] Next Result");
             if (result.cancelled()) {
-                debugLogger.debugMultiple(() -> new String[] {
+                debugLogger.debugMultiple(() -> new String[]{
                         "[CHAT] Cancelled Message.",
                         "Original Message: " + plainText().serialize(event.message())
                 });
@@ -67,7 +67,7 @@ public final class PlayerChatListener implements EventListener<AsyncChatEvent>, 
             } else {
                 final String modifiedChat = result.toModify();
                 if (modifiedChat != null) {
-                    debugLogger.debugMultiple(() -> new String[] {
+                    debugLogger.debugMultiple(() -> new String[]{
                             "[CHAT] Modified message",
                             "Original: " + plainText().serialize(event.message()),
                             "Message: " + modifiedChat
@@ -86,11 +86,8 @@ public final class PlayerChatListener implements EventListener<AsyncChatEvent>, 
 
     @Override
     public boolean isLocal() {
-        return StackWalker.getInstance()
-                .walk(stream -> stream.skip(12)
-                        .limit(2)
-                        .map(StackWalker.StackFrame::getMethodName)
-                        .filter(method -> method.equals("chat"))
-                        .count() == 2);
+        return WALKER.walk(stream -> stream.limit(20)
+                .map(StackWalker.StackFrame::getMethodName)
+                .noneMatch(method -> method.contains("handleChat")));
     }
 }
