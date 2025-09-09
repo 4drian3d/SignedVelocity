@@ -6,23 +6,18 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.player.PlayerChatEvent;
 
-import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.lang.invoke.VarHandle;
 import java.util.function.Consumer;
 
 public final class PlayerChatListener implements Consumer<PlayerChatEvent> {
     private static final VarHandle rawMessage;
-    private static final MethodHandle buildDefaultChatMessage;
 
     static {
         try {
-            final MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(PlayerChatEvent.class, MethodHandles.lookup());
+            final MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(
+                    PlayerChatEvent.class, MethodHandles.lookup());
             rawMessage = lookup.findVarHandle(PlayerChatEvent.class, "rawMessage", String.class);
-
-            final MethodType chatMessageMethodType = MethodType.methodType(Component.class);
-            buildDefaultChatMessage = lookup.findVirtual(PlayerChatEvent.class, "buildDefaultChatMessage", chatMessageMethodType);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +36,12 @@ public final class PlayerChatListener implements Consumer<PlayerChatEvent> {
                         if (modifiedChat != null) {
                             try {
                                 rawMessage.set(event, modifiedChat);
-                                event.setFormattedMessage((Component) buildDefaultChatMessage.invoke(event));
+                                event.setFormattedMessage(Component.translatable("chat.type.text")
+                                        .arguments(
+                                                Component.text(player.getUsername())
+                                                        .insertion(player.getUsername())
+                                                        .hoverEvent(player),
+                                                Component.text(modifiedChat)));
                             } catch (Throwable e) {
                                 MinecraftServer.getExceptionManager().handleException(e);
                             }
