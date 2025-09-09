@@ -57,22 +57,18 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
                 // If the command is sent to the server but modified,
                 // it is sent as unmodified and then modified on the backend server
                 if (finalCommand != null) {
-                    switch (invocationInfo.signedState()) {
-                        case SIGNED_WITH_ARGS, SIGNED_WITHOUT_ARGS -> {
-                            plugin.logDebug("Command Execution | Signed Command Executed, modified and forwarded");
-                            event.setResult(CommandExecuteEvent.CommandResult.forwardToServer());
-                            // Modified
-                            // | Modified Command but forwarded to backend server
-                            server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
-                                output.writeUTF(player.getUniqueId().toString());
-                                output.writeUTF("COMMAND_RESULT");
-                                output.writeUTF("MODIFY");
-                                output.writeUTF(finalCommand);
-                            });
-                            continuation.resume();
-                            return;
-                        }
-                    }
+                    plugin.logDebug("Command Execution | Signed Command Executed, modified and forwarded");
+                    event.setResult(CommandExecuteEvent.CommandResult.forwardToServer());
+                    // Modified
+                    // | Modified Command but forwarded to backend server
+                    server.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
+                        output.writeUTF(player.getUniqueId().toString());
+                        output.writeUTF("COMMAND_RESULT");
+                        output.writeUTF("MODIFY");
+                        output.writeUTF(finalCommand);
+                    });
+                    continuation.resume();
+                    return;
                 }
                 plugin.logDebug("Command Execution | Command Forwarded to server");
                 // If the command has not been modified, it is simply allowed to be executed regularly
@@ -85,15 +81,19 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
             final boolean isProxyCommand = this.isProxyCommand(event.getCommand());
             // ALLOWED
             // | Direct command allowed
-            if (result == CommandExecuteEvent.CommandResult.allowed()) {
+            if (result == CommandExecuteEvent.CommandResult.allowed() || Objects.equals(finalCommand, event.getCommand())) {
                 plugin.logDebug("Command Execution | Allowed Command");
                 // If it is detected that it is a command registered in Velocity,
                 // it delegates the sending of the SignedResult to the PostPlayerCommandListener to see
                 // if it is necessary to send it or if it was executed entirely in the Velocity command dispatcher
                 if (!isProxyCommand) {
                     plugin.logDebug("Command Execution | Allowed non proxied command");
-                    allowedData(player, server, SignedResult.COMMAND_RESULT);
+                    //allowedData(player, server, SignedResult.COMMAND_RESULT);
                 }
+                // If the command is registered in Velocity,
+                // then its execution is delegated to Velocity's CommandDispatcher.
+                // From there, if the command is sent to the backend server via a RRigadierCommand.FORWARD,
+                // this is detected by the PostPlayerCommandListener.
                 continuation.resume();
                 return;
             }
@@ -124,17 +124,6 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
                 return;
             }
 
-
-            // ALLOWED
-            // | If the result of the event is to modify the command,
-            // | but the modified command is the same as the executed one, simply accept the execution
-            if (Objects.equals(finalCommand, event.getCommand())) {
-                plugin.logDebug("Command Execution | Same modification input, allowed");
-                event.setResult(CommandExecuteEvent.CommandResult.allowed());
-                continuation.resume();
-                return;
-            }
-
             // --- Modification Section ---
             plugin.logDebug("Command Execution | Modification Section");
             if (!isProxyCommand) {
@@ -156,6 +145,9 @@ final class PlayerCommandListener implements Listener<CommandExecuteEvent> {
 
             plugin.logDebug("Command Execution | Modified Command sent to Velocity Command Dispatcher");
 
+            // If the command is modified in Velocity, it has a command registered in Velocity,
+            // but when executed it is sent to the backend server,
+            // there may be problems in certain versions of the backend server.
             event.setResult(CommandExecuteEvent.CommandResult.command(finalCommand));
             plugin.modificationCache().put(player.getUniqueId().toString(), new ModificationCache(event.getCommand(), finalCommand));
             continuation.resume();

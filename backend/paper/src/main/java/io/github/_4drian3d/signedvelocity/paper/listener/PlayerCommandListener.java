@@ -3,6 +3,8 @@ package io.github._4drian3d.signedvelocity.paper.listener;
 import io.github._4drian3d.signedvelocity.common.logger.DebugLogger;
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
+import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;
+import net.minecraft.network.protocol.game.ServerboundChatCommandSignedPacket;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -30,9 +32,10 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
     @Override
     public void handle(final @NotNull PlayerCommandPreprocessEvent event) {
         if (CHECK_FOR_LOCAL_CHAT && isLocal()) {
-            debugLogger.debug(() -> "[COMMAND] Local Chat Executed");
+            debugLogger.debug(() -> "[COMMAND] Local Command Executed");
             return;
         }
+
         final Player player = event.getPlayer();
         this.commandQueue.dataFrom(player.getUniqueId())
                 .nextResult()
@@ -61,11 +64,12 @@ public final class PlayerCommandListener implements EventListener<PlayerCommandP
 
     @Override
     public boolean isLocal() {
-        return StackWalker.getInstance()
-                .walk(stream -> stream.skip(9)
-                .limit(2)
-                .map(StackWalker.StackFrame::getMethodName)
-                .filter(method -> method.equals("chat") || method.equals("handleCommand"))
-                .count() == 2);
+        return WALKER.walk(stream -> stream.limit(15)
+                .map(StackWalker.StackFrame::getMethodType)
+                .noneMatch(method -> {
+                    final var parameters = method.parameterList();
+                    return parameters.contains(ServerboundChatCommandPacket.class)
+                            || parameters.contains(ServerboundChatCommandSignedPacket.class);
+                }));
     }
 }
