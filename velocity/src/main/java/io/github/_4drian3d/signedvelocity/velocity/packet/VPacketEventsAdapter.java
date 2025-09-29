@@ -1,13 +1,15 @@
 package io.github._4drian3d.signedvelocity.velocity.packet;
 
 import com.google.inject.Inject;
+import com.velocitypowered.api.event.AwaitingEventExecutor;
 import com.velocitypowered.api.event.EventManager;
+import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.proxy.protocol.packet.JoinGamePacket;
 import com.velocitypowered.proxy.protocol.packet.ServerDataPacket;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import io.github._4drian3d.vpacketevents.api.event.PacketSendEvent;
 
-final class VPacketEventsAdapter implements PacketAdapter {
+final class VPacketEventsAdapter implements PacketAdapter, AwaitingEventExecutor<PacketSendEvent> {
 
   @Inject
   private EventManager eventManager;
@@ -16,7 +18,12 @@ final class VPacketEventsAdapter implements PacketAdapter {
 
   @Override
   public void register() {
-    eventManager.register(plugin, PacketSendEvent.class, event -> {
+    eventManager.register(plugin, PacketSendEvent.class, this);
+  }
+
+  @Override
+  public EventTask executeAsync(final PacketSendEvent event) {
+    return EventTask.async(() -> {
       if (event.getPacket() instanceof final ServerDataPacket serverData) {
         serverData.setSecureChatEnforced(true);
       }
