@@ -3,6 +3,8 @@
 ![Latest Version](https://img.shields.io/github/v/release/4drian3d/SignedVelocity?style=flat-square)
 [![Discord](https://img.shields.io/discord/899740810956910683?color=7289da&logo=Discord&label=Discord&style=flat-square)](https://discord.gg/5NMMzK5mAn)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/7IbzD4Zm?logo=Modrinth&style=flat-square)](https://modrinth.com/plugin/signedvelocity)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/4drian3d/SignedVelocity/total?style=flat-square&logo=GitHub)
+
 [![Jenkins Build](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.codemc.io%2Fjob%2F4drian3d%2Fjob%2FSignedVelocity%2F&style=flat-square&label=Jenkins%20Build)
 ](https://ci.codemc.io/job/4drian3d/job/SignedVelocity/)
 
@@ -10,10 +12,10 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 
 ## Requirements
 - Java 21+
-- Velocity 3.3.0+
+- Velocity 3.4.0+
 #### **Backend:**
-- Paper 1.19.4+ 
-- Sponge 8.1/10+
+- Paper 1.20+ 
+- Sponge 10/12+
 - [Minestom](https://github.com/4drian3d/SignedVelocity?tab=readme-ov-file#minestom)
 - Fabric 1.21+
 
@@ -75,7 +77,9 @@ import io.github._4drian3d.signedvelocity.minestom.SignedVelocity;
 
 // then...
 
-SignedVelocity.initialize();
+void main() {
+  SignedVelocity.initialize();
+}
 ```
 
 For older versions of Minestom, you can use SignedVelocity-Minestom 1.2.4 which comes as an extension
@@ -85,14 +89,6 @@ For older versions of Minestom, you can use SignedVelocity-Minestom 1.2.4 which 
 ## Downloads
 
 [![](https://raw.githubusercontent.com/Prospector/badges/master/modrinth-badge-72h-padded.png)](https://modrinth.com/plugin/signedvelocity)
-
-### Why SignedVelocity if UnSignedVelocity already exists?
-
-UnSignedVelocity is a plugin that removes the limitation in Velocity to block or modify chat or commands executed by players with versions 1.19.1 or higher and who have a valid SignedKey. Although this works most of the time, there are issues that have arisen since version 1.19.3, which, as Mojang has implemented more security checks in the chat reporting system, has driven players kicked out of the proxy.
-
-SignedVelocity solves all these problems, synchronizing the blocking and modification of chat and commands to the backend server, where it is possible to modify the chat.
-
-[![Watch the video](https://img.youtube.com/vi/5bfYy1kQwGk/maxresdefault.jpg)](https://www.youtube.com/watch?v=5bfYy1kQwGk)
 
 ## Metrics
 [![metrics](https://bstats.org/signatures/velocity/SignedVelocity.svg)](https://bstats.org/plugin/velocity/SignedVelocity/18937)
