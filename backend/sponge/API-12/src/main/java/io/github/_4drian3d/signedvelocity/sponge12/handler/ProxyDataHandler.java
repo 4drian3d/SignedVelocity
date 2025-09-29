@@ -1,4 +1,4 @@
-package io.github._4drian3d.signedvelocity.sponge14.handler;
+package io.github._4drian3d.signedvelocity.sponge12.handler;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

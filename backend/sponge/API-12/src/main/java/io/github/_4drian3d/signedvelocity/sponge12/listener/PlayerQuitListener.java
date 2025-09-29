@@ -1,4 +1,4 @@
-package io.github._4drian3d.signedvelocity.sponge14.listener;
+package io.github._4drian3d.signedvelocity.sponge12.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
