@@ -1,5 +1,6 @@
 package io.github._4drian3d.signedvelocity.velocity.listener;
 
+import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandResult;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
@@ -8,8 +9,6 @@ import com.velocitypowered.api.proxy.Player;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import io.github._4drian3d.signedvelocity.velocity.cache.ModificationCache;
 import io.github._4drian3d.signedvelocity.velocity.types.SignedResult;
-
-import javax.inject.Inject;
 
 public final class PostPlayerCommandListener implements Listener<PostCommandInvocationEvent> {
     @Inject
