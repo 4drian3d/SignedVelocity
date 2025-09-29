@@ -8,6 +8,7 @@ plugins {
 dependencies {
     compileOnly(libs.annotations)
     compileOnly(libs.slf4j)
+    compileOnly(projects.signedvelocityShared)
 }
 
 mavenPublishing {

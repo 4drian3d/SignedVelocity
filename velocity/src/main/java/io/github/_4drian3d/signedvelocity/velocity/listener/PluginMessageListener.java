@@ -9,19 +9,19 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 import static io.github._4drian3d.signedvelocity.velocity.SignedVelocity.SIGNEDVELOCITY_CHANNEL;
 
-public final class PluginMessageListener implements Listener<PluginMessageEvent> {
+public final class PluginMessageListener implements Listener<@NotNull PluginMessageEvent> {
   @Inject
   private EventManager eventManager;
   @Inject
   private ProxyServer proxyServer;
   @Inject
   private SignedVelocity plugin;
-
 
   @Override
   public void register() {

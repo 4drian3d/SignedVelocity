@@ -1,4 +1,4 @@
-package io.github._4drian3d.signedvelocity.common;
+package io.github._4drian3d.signedvelocity.shared;
 
 public final class PropertyHolder {
     private PropertyHolder() {

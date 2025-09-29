@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.paper.listener;
 
-import io.github._4drian3d.signedvelocity.common.logger.DebugLogger;
+import io.github._4drian3d.signedvelocity.shared.logger.DebugLogger;
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.paper.SignedVelocity;
 import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;

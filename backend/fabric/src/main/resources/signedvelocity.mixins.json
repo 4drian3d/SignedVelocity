@@ -4,9 +4,9 @@
   "package": "io.github._4drian3d.signedvelocity.fabric.mixins",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ChatCommandPacketMixin",
-    "SignedChatCommandPacketMixin",
-    "PlayerChatMixin",
+    "injector.ChatCommandPacketMixin",
+    "injector.SignedChatCommandPacketMixin",
+    "injector.PlayerChatMixin",
     "PlayerListMixin",
     "ServerGamePacketListenerMixin"
   ],

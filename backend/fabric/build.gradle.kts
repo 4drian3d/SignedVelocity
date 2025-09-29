@@ -12,6 +12,7 @@ dependencies {
     modImplementation(libs.fabric.api)
 
     shadeModule(projects.signedvelocityBackendCommon)
+    shadeModule(projects.signedvelocityShared)
 }
 
 fun DependencyHandlerScope.shadeModule(module: ProjectDependency) {

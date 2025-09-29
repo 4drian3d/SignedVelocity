@@ -10,6 +10,7 @@ dependencies {
         exclude("com.github.MadMartian", "hydrazine-path-finding")
     }
     api(projects.signedvelocityBackendCommon)
+    implementation(projects.signedvelocityShared)
 }
 
 mavenPublishing {

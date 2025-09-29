@@ -1,4 +1,4 @@
-package io.github._4drian3d.signedvelocity.fabric.mixins;
+package io.github._4drian3d.signedvelocity.fabric.mixins.injector;
 
 import io.github._4drian3d.signedvelocity.fabric.model.SignedPlayerChatMessage;
 import net.minecraft.network.chat.PlayerChatMessage;

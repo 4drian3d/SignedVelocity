@@ -6,11 +6,12 @@ import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.command.PostCommandInvocationEvent;
 import com.velocitypowered.api.proxy.Player;
+import io.github._4drian3d.signedvelocity.shared.types.QueueType;
 import io.github._4drian3d.signedvelocity.velocity.SignedVelocity;
 import io.github._4drian3d.signedvelocity.velocity.cache.ModificationCache;
-import io.github._4drian3d.signedvelocity.velocity.types.SignedResult;
+import org.jetbrains.annotations.NotNull;
 
-public final class PostPlayerCommandListener implements Listener<PostCommandInvocationEvent> {
+public final class PostPlayerCommandListener implements Listener<@NotNull PostCommandInvocationEvent> {
     @Inject
     private SignedVelocity plugin;
     @Inject
@@ -37,15 +38,10 @@ public final class PostPlayerCommandListener implements Listener<PostCommandInvo
                             plugin.logDebug("Post Command Execution | Server Available");
                             if (cache != null && cache.modifiedCommand().equals(event.getCommand())) {
                                 plugin.logDebug("Post Command Execution | Modified Command");
-                                connection.sendPluginMessage(SignedVelocity.SIGNEDVELOCITY_CHANNEL, output -> {
-                                    output.writeUTF(playerUUID);
-                                    output.writeUTF("COMMAND_RESULT");
-                                    output.writeUTF("MODIFY");
-                                    output.writeUTF(event.getCommand());
-                                });
+                                this.sendModifiedData(player, connection, QueueType.COMMAND, event.getCommand());
                             } else {
                                 plugin.logDebug("Post Command Execution | Non modified command");
-                                allowedData(player, connection, SignedResult.COMMAND_RESULT);
+                                sendAllowedData(player, connection, QueueType.COMMAND);
                             }
                         });
             }

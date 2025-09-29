@@ -35,7 +35,8 @@ mapOf(
     "signedvelocity-sponge-common" to "backend/sponge/common",
     "signedvelocity-sponge-10" to "backend/sponge/API-10",
     "signedvelocity-sponge-12" to "backend/sponge/API-12",
-    "signedvelocity-proxy" to "velocity"
+    "signedvelocity-proxy" to "velocity",
+    "signedvelocity-shared" to "shared"
 ).forEach { (module, path) ->
     include(module)
     project(":$module").projectDir = file(path)

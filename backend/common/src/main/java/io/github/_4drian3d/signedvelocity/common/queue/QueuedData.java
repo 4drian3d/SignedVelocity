@@ -1,6 +1,6 @@
 package io.github._4drian3d.signedvelocity.common.queue;
 
-import io.github._4drian3d.signedvelocity.common.PropertyHolder;
+import io.github._4drian3d.signedvelocity.shared.PropertyHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Queue;

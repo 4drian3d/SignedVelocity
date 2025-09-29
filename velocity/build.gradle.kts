@@ -13,6 +13,7 @@ dependencies {
 
     compileOnly(libs.packetevents.velocity)
     compileOnly(libs.vpacketevents)
+    implementation(projects.signedvelocityShared)
 }
 
 tasks {
@@ -25,6 +26,9 @@ tasks {
     }
     runVelocity {
         velocityVersion(libs.versions.velocity.get())
+        downloadPlugins {
+            modrinth("vpacketevents", "Kz7ttviZ")
+        }
     }
     shadowJar {
         archiveBaseName.set("${rootProject.name}-Proxy")

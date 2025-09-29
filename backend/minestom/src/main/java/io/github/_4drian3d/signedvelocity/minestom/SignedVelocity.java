@@ -15,7 +15,6 @@ import net.minestom.server.MinecraftServer;
  * Main SignedVelocity class
  */
 public final class SignedVelocity {
-    public static final String CHANNEL = "signedvelocity:main";
     private static final SignedQueue chatQueue = new SignedQueue();
     private static final SignedQueue commandQueue = new SignedQueue();
 

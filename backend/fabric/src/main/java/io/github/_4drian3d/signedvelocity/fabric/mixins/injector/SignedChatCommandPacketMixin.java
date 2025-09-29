@@ -1,12 +1,12 @@
-package io.github._4drian3d.signedvelocity.fabric.mixins;
+package io.github._4drian3d.signedvelocity.fabric.mixins.injector;
 
 import io.github._4drian3d.signedvelocity.fabric.model.SignedChatCommandPacket;
-import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;
+import net.minecraft.network.protocol.game.ServerboundChatCommandSignedPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(ServerboundChatCommandPacket.class)
-public class ChatCommandPacketMixin implements SignedChatCommandPacket {
+@Mixin(ServerboundChatCommandSignedPacket.class)
+public class SignedChatCommandPacketMixin implements SignedChatCommandPacket {
     @Unique
     private boolean signedVelocity$handled = false;
 

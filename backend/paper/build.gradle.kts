@@ -8,6 +8,7 @@ plugins {
 dependencies {
     paperweight.paperDevBundle("1.21.8-R0.1-SNAPSHOT")
     implementation(projects.signedvelocityBackendCommon)
+    implementation(projects.signedvelocityShared)
 }
 
 tasks {
@@ -33,6 +34,7 @@ tasks {
     }
     runServer {
         minecraftVersion("1.21.8")
+        jvmArgs("-Dcom.mojang.eula.agree=true")
     }
 }
 

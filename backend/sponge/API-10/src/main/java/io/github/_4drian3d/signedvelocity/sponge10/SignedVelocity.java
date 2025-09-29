@@ -9,7 +9,6 @@ import io.github._4drian3d.signedvelocity.sponge.common.listener.SubmitChatListe
 import io.github._4drian3d.signedvelocity.sponge.common.modules.SignedModule;
 import io.github._4drian3d.signedvelocity.sponge10.handler.ProxyDataHandler;
 import io.github._4drian3d.signedvelocity.sponge10.listener.PlayerQuitListener;
-import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
@@ -17,6 +16,8 @@ import org.spongepowered.api.network.channel.raw.RawDataChannel;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.util.stream.Stream;
+
+import static io.github._4drian3d.signedvelocity.sponge.common.SpongeChannels.SIGNED_CHANNEL;
 
 @Plugin("signedvelocity")
 public class SignedVelocity {
@@ -32,7 +33,7 @@ public class SignedVelocity {
                         .forEach(SignedListener::register);
         event.game()
                 .channelManager()
-                .ofType(ResourceKey.of("signedvelocity", "main"), RawDataChannel.class)
+                .ofType(SIGNED_CHANNEL, RawDataChannel.class)
                 .play()
                 .addHandler(injector.getInstance(ProxyDataHandler.class));
     }

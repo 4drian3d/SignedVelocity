@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import io.github._4drian3d.signedvelocity.common.queue.SignedQueue;
 import io.github._4drian3d.signedvelocity.common.queue.SignedResult;
+import io.github._4drian3d.signedvelocity.shared.types.QueueType;
+import io.github._4drian3d.signedvelocity.shared.types.ResultType;
 import org.spongepowered.api.network.EngineConnection;
 import org.spongepowered.api.network.channel.ChannelBuf;
 import org.spongepowered.api.network.channel.raw.play.RawPlayDataHandler;
@@ -11,30 +13,28 @@ import org.spongepowered.api.network.channel.raw.play.RawPlayDataHandler;
 import java.util.UUID;
 
 public final class ProxyDataHandler implements RawPlayDataHandler<EngineConnection> {
-    @Inject
-    @Named("chat")
-    private SignedQueue chatQueue;
-    @Inject
-    @Named("command")
-    private SignedQueue commandQueue;
+  @Inject
+  @Named("chat")
+  private SignedQueue chatQueue;
+  @Inject
+  @Named("command")
+  private SignedQueue commandQueue;
 
-    @Override
-    public void handlePayload(final ChannelBuf data, final EngineConnection connection) {
-        final UUID playerId = UUID.fromString(data.readUTF());
-        final String source = data.readUTF();
-        final String result = data.readUTF();
+  @Override
+  public void handlePayload(final ChannelBuf data, final EngineConnection connection) {
+    final UUID playerId = UUID.fromString(data.readUTF());
+    final String source = data.readUTF();
+    final String result = data.readUTF();
 
-        final SignedQueue queue = switch (source) {
-            case "COMMAND_RESULT" -> commandQueue;
-            case "CHAT_RESULT" -> chatQueue;
-            default -> throw new IllegalArgumentException("Invalid source " + source);
-        };
-        final SignedResult resulted = switch (result) {
-            case "CANCEL" -> SignedResult.cancel();
-            case "MODIFY" -> SignedResult.modify(data.readUTF());
-            case "ALLOWED" -> SignedResult.allowed();
-            default -> throw new IllegalArgumentException("Invalid result " + result);
-        };
-        queue.dataFrom(playerId).complete(resulted);
-    }
+    final SignedQueue queue = switch (QueueType.getOrThrow(source)) {
+      case QueueType.COMMAND -> commandQueue;
+      case QueueType.CHAT -> chatQueue;
+    };
+    final SignedResult resulted = switch (ResultType.getOrThrow(result)) {
+      case ResultType.CANCEL -> SignedResult.cancel();
+      case ResultType.MODIFY -> SignedResult.modify(data.readUTF());
+      case ResultType.ALLOWED -> SignedResult.allowed();
+    };
+    queue.dataFrom(playerId).complete(resulted);
+  }
 }

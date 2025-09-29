@@ -1,6 +1,6 @@
-package io.github._4drian3d.signedvelocity.common.logger;
+package io.github._4drian3d.signedvelocity.shared.logger;
 
-import io.github._4drian3d.signedvelocity.common.PropertyHolder;
+import io.github._4drian3d.signedvelocity.shared.PropertyHolder;
 import org.slf4j.Logger;
 
 import java.util.function.Supplier;

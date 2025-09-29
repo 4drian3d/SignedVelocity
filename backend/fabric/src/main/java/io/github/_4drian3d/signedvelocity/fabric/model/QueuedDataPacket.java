@@ -3,6 +3,7 @@ package io.github._4drian3d.signedvelocity.fabric.model;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import io.github._4drian3d.signedvelocity.fabric.SignedVelocity;
+import io.github._4drian3d.signedvelocity.shared.types.ResultType;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -18,15 +19,17 @@ public record QueuedDataPacket(
         String result,
         @Nullable String modifiedMessage
 ) implements CustomPacketPayload {
-  public static final CustomPacketPayload.Type<QueuedDataPacket> PACKET_ID = new CustomPacketPayload.Type<>(SignedVelocity.CHANNEL);
-  public static final StreamCodec<ByteBuf, QueuedDataPacket> PACKET_CODEC = CustomPacketPayload.codec(QueuedDataPacket::write, QueuedDataPacket::generate);
+  public static final CustomPacketPayload.Type<QueuedDataPacket> PACKET_ID =
+      new CustomPacketPayload.Type<>(SignedVelocity.CHANNEL);
+  public static final StreamCodec<ByteBuf, QueuedDataPacket> PACKET_CODEC =
+      CustomPacketPayload.codec(QueuedDataPacket::write, QueuedDataPacket::generate);
 
   public static QueuedDataPacket generate(final ByteBuf buf) {
     final ByteArrayDataInput input = ByteStreams.newDataInput(convertFromBuf(buf));
     final UUID playerId = UUID.fromString(input.readUTF());
     final String source = input.readUTF();
     final String result = input.readUTF();
-    final String modifiedMessage = result.equals("MODIFY")
+    final String modifiedMessage = result.equals(ResultType.MODIFY.value())
             ? input.readUTF()
             : null;
     return new QueuedDataPacket(playerId, source, result, modifiedMessage);
@@ -37,7 +40,7 @@ public record QueuedDataPacket(
     friendlyByteBuf.writeUUID(packet.playerId());
     friendlyByteBuf.writeUtf(packet.source);
     friendlyByteBuf.writeUtf(packet.result);
-    if (packet.result.equals("MODIFY"))
+    if (packet.result.equals(ResultType.MODIFY.value()))
       friendlyByteBuf.writeUtf(packet.modifiedMessage);
   }
 
