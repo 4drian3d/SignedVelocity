@@ -11,7 +11,7 @@ minecraft = "1.21.9-rc1"
 # Gradle Plugins
 blossom = "2.1.0"
 shadow = "9.2.2"
-runvelocity = "3.0.0"
+runvelocity = "3.0.1"
 
 bstats = "3.1.0"
 
