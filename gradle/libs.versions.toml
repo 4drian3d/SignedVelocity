@@ -9,7 +9,7 @@ minestom-server = "2025.10.05-1.21.8"
 minecraft = "1.21.9-rc1"
 
 # Gradle Plugins
-blossom = "2.1.0"
+blossom = "2.2.0"
 shadow = "9.2.2"
 runvelocity = "3.0.2"
 
