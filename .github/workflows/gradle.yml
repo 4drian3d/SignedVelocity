@@ -24,7 +24,7 @@ jobs:
         max_attempts: 2
         command: ./gradlew clean build
     - name: Upload build artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: SignedVelocity
         path: build/SignedVelocity-*.jar
