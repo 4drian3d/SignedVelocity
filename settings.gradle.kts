@@ -23,7 +23,7 @@ dependencyResolutionManagement {
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
     id("org.spongepowered.gradle.plugin") version "2.3.0"
-    id("fabric-loom") version "1.11.8"
+    id("fabric-loom") version "1.13.3"
 }
 
 // Module Name to Module Folder
