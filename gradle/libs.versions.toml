@@ -32,7 +32,7 @@ fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = 
 
 bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 
-packetevents-velocity = { group = "com.github.retrooper", name = "packetevents-velocity", version = "2.10.1" }
+packetevents-velocity = { group = "com.github.retrooper", name = "packetevents-velocity", version = "2.11.0" }
 packetevents-paper = { group = "com.github.retrooper", name = "packetevents-spigot", version = "2.10.1" }
 vpacketevents = { group = "io.github.4drian3d", name = "vpacketevents-api", version = "1.1.0" }
 
