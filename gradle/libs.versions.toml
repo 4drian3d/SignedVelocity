@@ -5,7 +5,7 @@ metadata.format.version = "1.1"
 # CompileOnly dependencies
 velocity = "3.4.0-SNAPSHOT"
 paper = "1.21.8-R0.1-SNAPSHOT"
-minestom-server = "2025.10.05-1.21.8"
+minestom-server = "2025.12.20-1.21.11"
 minecraft = "1.21.9-rc1"
 
 # Gradle Plugins
