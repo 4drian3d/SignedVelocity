@@ -46,4 +46,4 @@ shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 runvelocity = { id = "xyz.jpenilla.run-velocity", version.ref = "runvelocity" }
 runpaper = { id = "xyz.jpenilla.run-paper", version.ref = "runvelocity" }
 pluginyml-paper = { id = "de.eldoria.plugin-yml.paper", version = "0.8.0" }
-idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.3" }
+idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.4" }
