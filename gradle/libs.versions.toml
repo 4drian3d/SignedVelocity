@@ -3,7 +3,7 @@ metadata.format.version = "1.1"
 [versions]
 
 # CompileOnly dependencies
-velocity = "3.4.0-SNAPSHOT"
+velocity = "3.4.0"
 paper = "1.21.8-R0.1-SNAPSHOT"
 minestom-server = "2025.10.05-1.21.8"
 minecraft = "1.21.9-rc1"
