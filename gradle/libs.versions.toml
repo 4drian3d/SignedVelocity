@@ -15,7 +15,7 @@ runvelocity = "3.0.2"
 
 bstats = "3.2.1"
 
-fabric-api = "0.133.14+1.21.9"
+fabric-api = "0.143.7+26.1"
 fabric-loader = "0.18.4"
 
 [libraries]
