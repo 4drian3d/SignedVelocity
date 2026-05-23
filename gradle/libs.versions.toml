@@ -3,10 +3,10 @@ metadata.format.version = "1.1"
 [versions]
 
 # CompileOnly dependencies
-velocity = "3.4.0-SNAPSHOT"
+velocity = "3.5.0-SNAPSHOT"
 paper = "26.1.2.build.65-stable"
 minestom-server = "2025.10.05-1.21.8"
-minecraft = "1.21.9-rc1"
+minecraft = "26.1.2"
 
 # Gradle Plugins
 blossom = "2.2.0"
@@ -15,8 +15,8 @@ runvelocity = "3.0.2"
 
 bstats = "3.2.1"
 
-fabric-api = "0.133.14+1.21.9"
-fabric-loader = "0.19.1"
+fabric-api = "0.148.0+26.1.2"
+fabric-loader = "0.19.2"
 
 [libraries]
 

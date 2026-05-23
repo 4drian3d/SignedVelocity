@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom")
+    id("net.fabricmc.fabric-loom")
     alias(libs.plugins.shadow)
 }
 
@@ -7,9 +7,8 @@ val shade: Configuration by configurations.creating
 
 dependencies {
     minecraft(libs.minecraft)
-    mappings(loom.officialMojangMappings())
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.api)
+    implementation(libs.fabric.loader)
+    implementation(libs.fabric.api)
 
     shadeModule(projects.signedvelocityBackendCommon)
     shadeModule(projects.signedvelocityShared)
@@ -33,8 +32,8 @@ tasks {
             expand("version" to project.version)
         }
     }
-    remapJar {
-        inputFile.set(shadowJar.get().archiveFile)
+    jar {
+//        inputFile.set(shadowJar.get().archiveFile)
         archiveFileName.set("${rootProject.name}-Fabric-${project.version}.jar")
         destinationDirectory.set(file("${rootProject.projectDir}/build"))
     }

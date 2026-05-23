@@ -10,13 +10,13 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class SignedVelocity implements DedicatedServerModInitializer {
   public static final Logger LOGGER = LoggerFactory.getLogger("SignedVelocity");
-  public static final ResourceLocation CHANNEL = ResourceLocation.fromNamespaceAndPath(
+  public static final Identifier CHANNEL = Identifier.fromNamespaceAndPath(
       SignedConstants.SIGNED_NAMESPACE, SignedConstants.SIGNED_CHANNEL);
   public static final SignedQueue CHAT_QUEUE = new SignedQueue();
   public static final SignedQueue COMMAND_QUEUE = new SignedQueue();
@@ -28,7 +28,7 @@ public final class SignedVelocity implements DedicatedServerModInitializer {
       CHAT_QUEUE.removeData(uuid);
       COMMAND_QUEUE.removeData(uuid);
     });
-    PayloadTypeRegistry.playC2S().register(QueuedDataPacket.PACKET_ID, QueuedDataPacket.PACKET_CODEC);
+    PayloadTypeRegistry.serverboundPlay().register(QueuedDataPacket.PACKET_ID, QueuedDataPacket.PACKET_CODEC);
     ServerPlayNetworking.registerGlobalReceiver(QueuedDataPacket.PACKET_ID, (packet, context) -> {
       final SignedQueue queue = switch (QueueType.getOrThrow(packet.source())) {
         case QueueType.COMMAND -> SignedVelocity.COMMAND_QUEUE;

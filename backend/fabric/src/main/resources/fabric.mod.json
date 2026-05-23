@@ -21,9 +21,9 @@
   },
   "depends": {
     "fabricloader": ">=0.15.11",
-    "fabric": ">=0.100.0",
+    "fabric-api": ">=0.100.0",
     "java": ">=21",
-    "minecraft": ">=1.21"
+    "minecraft": ">=26.1"
   },
   "mixins": [
     "signedvelocity.mixins.json"
