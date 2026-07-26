@@ -7,16 +7,19 @@ plugins {
 
 dependencies {
     compileOnly(libs.velocity.api)
-    compileOnly(libs.velocity.proxy)
     annotationProcessor(libs.velocity.api)
     implementation(libs.bstats)
 
     compileOnly(libs.packetevents.velocity)
-    compileOnly(libs.vpacketevents)
     implementation(projects.signedvelocityShared)
 }
 
 tasks {
+    // Velocity 4.x artifacts are published for JVM 25 — this module must match,
+    // overriding the repo-wide release 21 set in the root build script.
+    withType<JavaCompile> {
+        options.release.set(25)
+    }
     build {
         dependsOn(shadowJar)
     }

@@ -5,13 +5,14 @@ import com.velocitypowered.api.plugin.PluginManager;
 
 import java.util.Map;
 
-public sealed interface PacketAdapter permits PacketEventsAdapter, VPacketEventsAdapter {
+public sealed interface PacketAdapter permits PacketEventsAdapter {
   void register();
 
   static void register(final Injector injector, final PluginManager pluginManager) {
+    // VPacketEvents support was dropped in the Velocity 4 port: its adapter
+    // required velocity-proxy internals that PaperMC no longer publishes for 4.x.
     final Map<String, Class<? extends PacketAdapter>> adapters = Map.of(
-            "packetevents", PacketEventsAdapter.class,
-            "vpacketevents", VPacketEventsAdapter.class
+            "packetevents", PacketEventsAdapter.class
             // Probable support of protocolize?
     );
     for (final var adapter : adapters.entrySet()) {

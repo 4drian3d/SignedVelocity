@@ -1,6 +1,6 @@
 name: Gradle Build
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
@@ -10,22 +10,22 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v7
 
-    - name: Set up JDK 21
+    - name: Set up JDK 25
       uses: actions/setup-java@v5
       with:
-        java-version: 21
+        java-version: 25
         distribution: 'temurin'
         cache: 'gradle'
 
-    - name: Build with Gradle
-      uses: nick-invision/retry@v4
-      with:
-        timeout_minutes: 5
-        max_attempts: 2
-        command: ./gradlew clean build
+    # Velocity 4 port: only the proxy module is maintained in this fork.
+    # The backend modules (paper/fabric/sponge/minestom) are unchanged from
+    # upstream — use the upstream 1.4.1 release jars for backend servers.
+    - name: Build proxy plugin
+      run: ./gradlew :signedvelocity-proxy:build -x test --no-daemon
+
     - name: Upload build artifact
       uses: actions/upload-artifact@v7
       with:
-        name: SignedVelocity
-        path: build/SignedVelocity-*.jar
-        
+        name: SignedVelocity-Proxy
+        path: build/SignedVelocity-Proxy-*.jar
+        if-no-files-found: error

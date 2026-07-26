@@ -26,7 +26,6 @@ import java.time.temporal.ChronoUnit;
         version = Constants.VERSION,
         description = "Allows you to cancel or modify messages or commands from Velocity without synchronization problems",
         dependencies = {
-                @Dependency(id = "vpacketevents", optional = true),
                 @Dependency(id = "packetevents", optional = true)
         }
 )
