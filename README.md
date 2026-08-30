@@ -14,7 +14,7 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 - Java 21+
 - Velocity 3.4.0+
 #### **Backend:**
-- Paper 1.20+ 
+- Paper 26.1.2+
 - Sponge 10/12+
 - [Minestom](https://github.com/4drian3d/SignedVelocity?tab=readme-ov-file#minestom)
 - Fabric 26.1.2+
