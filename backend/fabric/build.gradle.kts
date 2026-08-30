@@ -26,16 +26,13 @@ fun DependencyHandlerScope.shadeModule(module: ProjectDependency) {
 tasks {
     shadowJar {
         configurations = listOf(shade)
+        archiveFileName.set("${rootProject.name}-Fabric-${project.version}.jar")
+        destinationDirectory.set(file("${rootProject.projectDir}/build"))
     }
     processResources {
         filesMatching("fabric.mod.json") {
             expand("version" to project.version)
         }
-    }
-    jar {
-//        inputFile.set(shadowJar.get().archiveFile)
-        archiveFileName.set("${rootProject.name}-Fabric-${project.version}.jar")
-        destinationDirectory.set(file("${rootProject.projectDir}/build"))
     }
 }
 
