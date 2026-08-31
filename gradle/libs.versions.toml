@@ -14,6 +14,7 @@ shadow = "9.6.1"
 runvelocity = "3.0.2"
 
 bstats = "3.2.1"
+fastutil = "8.5.15"
 
 fabric-api = "0.148.0+26.1.2"
 fabric-loader = "0.19.3"
@@ -31,6 +32,7 @@ fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.r
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
 
 bstats = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
+fastutil = { group = "it.unimi.dsi", name = "fastutil", version.ref = "fastutil" }
 
 packetevents-velocity = { group = "com.github.retrooper", name = "packetevents-velocity", version = "2.13.0" }
 packetevents-paper = { group = "com.github.retrooper", name = "packetevents-spigot", version = "2.12.2" }

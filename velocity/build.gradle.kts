@@ -8,6 +8,7 @@ plugins {
 dependencies {
     compileOnly(libs.velocity.api)
     compileOnly(libs.velocity.proxy)
+    compileOnly(libs.fastutil)
     annotationProcessor(libs.velocity.api)
     implementation(libs.bstats)
 
