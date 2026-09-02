@@ -19,35 +19,39 @@ import static java.util.Objects.requireNonNull;
 @Mixin(value = PlayerList.class, priority = 1)
 public abstract class PlayerListMixin {
     @Shadow
-    public abstract void broadcastChatMessage(PlayerChatMessage playerChatMessage, ServerPlayer serverPlayer, ChatType.Bound bound);
+    public abstract void broadcastChatMessage(PlayerChatMessage message, ServerPlayer sender, ChatType.Bound chatType);
 
     @SuppressWarnings({"DataFlowIssue", "UnreachableCode"})
     @Inject(
             method = "broadcastChatMessage(Lnet/minecraft/network/chat/PlayerChatMessage;Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/network/chat/ChatType$Bound;)V",
             at = @At("HEAD"), cancellable = true)
     public void signedVelocity$handleChat(
-            PlayerChatMessage playerChatMessage,
-            ServerPlayer serverPlayer,
-            ChatType.Bound bound,
+            PlayerChatMessage message,
+            ServerPlayer sender,
+            ChatType.Bound chatType,
             CallbackInfo ci
     ) {
-        requireNonNull(serverPlayer);
-        if (((SignedPlayerChatMessage)(Object)playerChatMessage).signedVelocity$handled()) {
+        requireNonNull(sender);
+        if (((SignedPlayerChatMessage)(Object) message).signedVelocity$handled()) {
+            System.out.println("SignedVelocity: Chat message already handled, skipping.");
             return;
         }
-        ((SignedPlayerChatMessage)(Object)playerChatMessage).signedVelocity$handled(true);
-        final SignedResult result = SignedVelocity.CHAT_QUEUE.dataFrom(serverPlayer.getUUID())
+        ((SignedPlayerChatMessage)(Object) message).signedVelocity$handled(true);
+        final SignedResult result = SignedVelocity.CHAT_QUEUE.dataFrom(sender.getUUID())
                 .nextResult().join();
         // Cancelled Result
         if (result.cancelled()) {
+            System.out.println("SignedVelocity: Chat message was cancelled.");
             ci.cancel();
             return;
         }
         final String modified = result.message();
         // Modified Result
         if (modified != null) {
-            this.broadcastChatMessage(playerChatMessage.withUnsignedContent(Component.literal(modified)), serverPlayer, bound);
+            System.out.println("SignedVelocity: Chat message was modified.");
+            this.broadcastChatMessage(message.withUnsignedContent(Component.literal(modified)), sender, chatType);
             ci.cancel();
         }
+        System.out.println("SignedVelocity: Chat message was allowed.");
     }
 }

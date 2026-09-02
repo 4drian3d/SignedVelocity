@@ -9,16 +9,21 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 public final class QueuedData {
-    private static final int timeout = PropertyHolder.readInt("io.github._4drian3d.signedvelocity.timeout", 20);
+    private static final int timeout = PropertyHolder.readInt("io.github._4drian3d.signedvelocity.timeout", 100);
     private final Queue<SignedResult> results = new ConcurrentLinkedQueue<>();
     private final Queue<CompletableFuture<SignedResult>> unSyncronizedQueue = new ConcurrentLinkedQueue<>();
 
     public void complete(final SignedResult result) {
-        this.results.add(result);
         final var unSynchronized = unSyncronizedQueue.poll();
         if (unSynchronized != null) {
-            unSynchronized.complete(result);
+            // If timeout already completed the future, discard the late result
+            final boolean completed = unSynchronized.complete(result);
+            if (!completed) {
+                System.out.println("SignedVelocity: Discarded late result after timeout: " + result);
+            }
+            return;
         }
+        this.results.add(result);
     }
 
     public CompletableFuture<SignedResult> nextResult() {
@@ -33,11 +38,13 @@ public final class QueuedData {
 
     private CompletableFuture<SignedResult> futureFrom(final @Nullable SignedResult result) {
         if (result == null) {
+            System.out.println("SignedVelocity: No result available, creating a new CompletableFuture with timeout of " + timeout + "ms.");
             final CompletableFuture<SignedResult> future = new CompletableFuture<>();
             future.completeOnTimeout(SignedResult.allowed(), timeout, TimeUnit.MILLISECONDS);
             unSyncronizedQueue.add(future);
             return future;
         } else {
+            System.out.println("SignedVelocity: Result available, returning completed CompletableFuture.");
             return CompletableFuture.completedFuture(result);
         }
     }
