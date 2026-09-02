@@ -39,6 +39,7 @@ final class PlayerChatListener implements Listener<@NotNull PlayerChatEvent> {
       // | If the message is allowed simply transmit that should be accepted
       if (result == PlayerChatEvent.ChatResult.allowed()) {
         this.sendAllowedData(player, server, QueueType.CHAT);
+        this.waitForQueueProcessing();
         continuation.resume();
         return;
       }
@@ -52,6 +53,7 @@ final class PlayerChatListener implements Listener<@NotNull PlayerChatEvent> {
       // | The result is to cancel the execution
       if (finalMessage == null) {
         this.sendCancelData(player, server, QueueType.CHAT);
+        this.waitForQueueProcessing();
         continuation.resume();
         return;
       }
@@ -61,6 +63,7 @@ final class PlayerChatListener implements Listener<@NotNull PlayerChatEvent> {
       // | but the modified message is the same as the executed one, simply accept the execution
       if (Objects.equals(finalMessage, event.getMessage())) {
         this.sendAllowedData(player, server, QueueType.CHAT);
+        this.waitForQueueProcessing();
         continuation.resume();
         return;
       }
@@ -68,7 +71,7 @@ final class PlayerChatListener implements Listener<@NotNull PlayerChatEvent> {
       // Modified
       // | The result is to modify the command
       this.sendModifiedData(player, server, QueueType.CHAT, finalMessage);
-
+      this.waitForQueueProcessing();
       continuation.resume();
     });
   }

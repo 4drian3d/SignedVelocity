@@ -63,12 +63,14 @@ final class PlayerCommandListener implements Listener<@NotNull CommandExecuteEve
           // Modified
           // | Modified Command but forwarded to backend server
           this.sendModifiedData(player, server, QueueType.COMMAND, finalCommand);
+          this.waitForQueueProcessing();
           continuation.resume();
           return;
         }
         plugin.logDebug("Command Execution | Command Forwarded to server");
         // If the command has not been modified, it is simply allowed to be executed regularly
         this.sendAllowedData(player, server, QueueType.COMMAND);
+        this.waitForQueueProcessing();
         continuation.resume();
         return;
       }
@@ -108,6 +110,7 @@ final class PlayerCommandListener implements Listener<@NotNull CommandExecuteEve
       if (finalCommand == null) {
         plugin.logDebug("Command Execution | Cancelled command execution");
         this.sendCancelData(player, server, QueueType.COMMAND);
+        this.waitForQueueProcessing();
         // The command can be sent securely to the backend server,
         // thus preventing the Velocity dispatcher from trying to execute it,
         // and the backend server denies its execution before the backend dispatcher recognizes it
@@ -124,6 +127,7 @@ final class PlayerCommandListener implements Listener<@NotNull CommandExecuteEve
         // | If the command is not registered in Velocity,
         // | the dispatcher is prevented from even attempting to execute it
         this.sendModifiedData(player, server, QueueType.COMMAND, finalCommand);
+        this.waitForQueueProcessing();
         // The command is passed as if it had not been modified so that the backend server can safely modify it
         event.setResult(CommandExecuteEvent.CommandResult.forwardToServer());
         continuation.resume();
