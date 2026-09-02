@@ -1,5 +1,5 @@
 plugins {
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.21"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.23"
     alias(libs.plugins.runpaper)
     alias(libs.plugins.pluginyml.paper)
     alias(libs.plugins.shadow)
