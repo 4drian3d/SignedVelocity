@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.21.8-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("26.1.2.build.65-stable")
     implementation(projects.signedvelocityBackendCommon)
     implementation(projects.signedvelocityShared)
 }
@@ -30,7 +30,7 @@ tasks {
         }
     }
     runServer {
-        minecraftVersion("1.21.8")
+        minecraftVersion("26.1.2")
         jvmArgs("-Dcom.mojang.eula.agree=true")
     }
 }
@@ -41,6 +41,6 @@ paper {
     authors = listOf("4drian3d")
 
     foliaSupported = true
-    apiVersion = "1.21"
+    apiVersion = "26.1"
     website = "https://modrinth.com/plugin/signedvelocity"
 }

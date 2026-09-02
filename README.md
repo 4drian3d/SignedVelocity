@@ -14,10 +14,10 @@ Allows you to cancel or modify messages or commands from Velocity without synchr
 - Java 21+
 - Velocity 3.4.0+
 #### **Backend:**
-- Paper 1.20+ 
+- Paper 26.1.2+
 - Sponge 10/12+
 - [Minestom](https://github.com/4drian3d/SignedVelocity?tab=readme-ov-file#minestom)
-- Fabric 1.21+
+- Fabric 26.1.2+
 
 ## Features
 - Transmit the modification and cancellation status of Velocity messages and commands to your backend server using plugin messages. This avoids chat chain synchronization problems and avoids Velocity's security check by correctly synchronizing messages.
