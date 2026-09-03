@@ -61,8 +61,7 @@ public sealed interface Listener<E> extends AwaitingEventExecutor<E> permits Pla
     }
     try {
       Thread.sleep(WAIT_FOR_QUEUE_PROCESSING); // Wait for the queue to process the data
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+    } catch (InterruptedException _) {
     }
   }
 }
